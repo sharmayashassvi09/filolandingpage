@@ -231,7 +231,7 @@ textarea {
   width: 0.5px; 
   background-color: #508ae9; 
   height: 100px;
-  margin: 20px;
+  margin: 30px 20px;
 }
 .one {
   font-size: 30px;
@@ -242,6 +242,7 @@ textarea {
 .gobeyond {
   display: flex;
   background-color: #f0f5fd;
+  font-family: "Satoshi", sans-serif;
 }
 .boxes {
   display: grid;
@@ -279,31 +280,41 @@ textarea {
 .accessanywhere {
   background-color: #f9f9f9;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  font-family: "Satoshi", sans-serif;
+}
+.maintext {
+  font-size: 41px;
+  line-height: 60px;
+  color: #2f2f2f;
 }
 .download {
   display: flex;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 .accessleft {
-  padding: 100px;
+  padding-top: 30px;
+  padding-left: 110px;
 }
 .accesstext {
-  color: grey;
+  padding-top: 10px;
+  color: #6a6a6a;
   font-size: 20px;
+  font-weight: 500;
 }
 .accessright {
-  margin-top: 100px;
-  border: 1px solid;
-  border-radius: 20px;
-  height: 200px;
-  width: 200px;
-  padding: 20px;
+
+  height: 240px;
+  width: 420px;
+  padding: 100px;
 }
 .download img{
+  padding-top: 50px;
   border-radius: 5px;
-  height: 40px;
-  width: 150px;
-  margin: 20px;
+  height: 55px;
+  width: 205px;
 }
 
 /* ---- Section 8 ---- */
