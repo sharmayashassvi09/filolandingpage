@@ -210,18 +210,32 @@ textarea {
 
 /* ---- Section 5 ---- */
 .rating {
-  margin: 50px 80px;
+  margin: 70px 130px;
   padding: 20px;
   border-radius: 20px;
-  height: 150px;
+  height: 160px;
   display: flex;
-  background-color:#0e4094;
+  background-color:#1b55b5;
+  justify-content: center;
+  
 }
-.rating div {
-  font-size: x-large;
-  padding: 45px;
+.block {
+  line-height: 40px;
+  text-align: center;
+  margin: 10px 30px;
+  padding: 5px 23px;
   color: #fff;
-  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+}
+.line{
+  width: 0.5px; 
+  background-color: #508ae9; 
+  height: 100px;
+  margin: 20px;
+}
+.one {
+  font-size: 30px;
+  font-weight: 600;
 }
 
 /* ---- Section 6 ---- */
