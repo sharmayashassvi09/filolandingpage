@@ -3,8 +3,12 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  scrollbar-width: none;
 }
+::-webkit-scrollbar {
+    display: none;
+}
+
 
 /* ---- Section 1 ---- */
 .container {
@@ -59,33 +63,44 @@ body {
 }
 
 /* ---- Section 2 ---- */
-.section {
+.section {  
+  margin: 0;  
   background-image: url(heroimage.jpg);
   width: 100%;
   background-size: cover;
+  font-family: "Satoshi", sans-serif;
+  font-weight: 200;
 }
 .section2-text {
-  padding-top: 50px;
+  margin: 30px 50px;
+  padding-top: 100px;
   text-align: center;
   color: #fff;
-  font-size: 34px;
-  line-height: 42px;
+  font-size: 50px;
+  line-height: 60px;
 }
-.section2-text span {
-  color: #ff8e00
+.heading {
+
+}
+.subheading {
+  color: #ff8e00;
 }
 .section2-text2 {
+  padding: 10px;
   text-align: center;
   color: #fff;
+  font-size: 22px;
+  font-weight: 500;
 }
 .textbox {
-  margin-left: 200px;
-  margin-right: 200px;
+  margin: 0px 185px;
+  padding: 10px;
   background-color: #fff;
   align-items: center;
-  padding: 10px;
-  border: #0058cc;
+  border:2px solid #1265ec;
   border-radius: 16px;
+  height: 250px;
+  width: 890px;
 }
 .questions {
   display: grid;
@@ -105,11 +120,12 @@ textarea {
   border-radius: 20px;
 }
 .belowtext {
-  color: white;
+  padding: 10px 0;
+  color: #fff;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin: 5px 300px;
+  margin: 0px 200px;
 }
 
 /* ---- Section 3 ---- */
