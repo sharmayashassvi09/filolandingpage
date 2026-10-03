@@ -10,11 +10,13 @@ body {
 }
 
 
+
 /* ---- Section 1 ---- */
 .container {
   background: #fff;
   max-width: 1600px;
   margin: 0 auto;
+  padding: auto;
   position: fixed;
   z-index: 999;
   top: 0;
@@ -26,20 +28,22 @@ body {
   align-items: center;
   width: 100%;
   display: flex;
-  padding: 10px 52px;
+  margin: 0;
+  padding: 2px 60px;
   font-weight: 400;
   color: #232323;
 }
 .logoImg {
   margin: 0;
-  height: 44px;
-  width: 80px;
+  height: 67px;
+  width: 85px;
 }
 .logotext {
   margin: auto 0 auto 10px;
   border-left: 2px solid #e8e8e8;
-  padding: 10px;
+  padding: 0 10px;
   font-size: 12px;
+  display: inline-block;
   align-content: center;
   line-height: 16px;
 }
@@ -48,8 +52,8 @@ body {
   font-weight: 600;
 }
 .linksheader{
-  font-size: 14px;
-  font-weight: 200;
+  font-size: 15px;
+  font-weight: 100;
   display: flex;
   text-align: center;
   padding-left: 330px; 
@@ -67,8 +71,9 @@ body {
   margin: 0;  
   background-image: url(heroimage.jpg);
   width: 100%;
+  height: 100%;
   background-size: cover;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Open", sans-serif;
   font-weight: 200;
 }
 .section2-text {
@@ -76,8 +81,8 @@ body {
   padding-top: 100px;
   text-align: center;
   color: #fff;
-  font-size: 50px;
-  line-height: 60px;
+  font-size: 55px;
+  line-height: 70px;
 }
 .heading {
 
@@ -210,10 +215,10 @@ textarea {
 
 /* ---- Section 5 ---- */
 .rating {
-  margin: 70px 130px;
+  margin: 70px 140px;
   padding: 20px;
   border-radius: 20px;
-  height: 160px;
+  height: 185px;
   display: flex;
   background-color:#1b55b5;
   justify-content: center;
@@ -223,18 +228,18 @@ textarea {
   line-height: 40px;
   text-align: center;
   margin: 10px 30px;
-  padding: 5px 23px;
+  padding: 5px 10px;
   color: #fff;
-  font-family: "Poppins", sans-serif;
+  font-family: "Satoshi", sans-serif;
 }
 .line{
-  width: 0.5px; 
+  width: 1.5px; 
   background-color: #508ae9; 
   height: 100px;
-  margin: 30px 20px;
+  margin: 40px 20px;
 }
 .one {
-  font-size: 30px;
+  font-size: 35px;
   font-weight: 600;
 }
 
@@ -279,24 +284,25 @@ textarea {
 /* ---- Section 7 ---- */
 .accessanywhere {
   background-color: #f9f9f9;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-family: "Satoshi", sans-serif;
+  padding: 10px 90px;
 }
 .maintext {
-  font-size: 41px;
-  line-height: 60px;
+  font-size: 43px;
+  line-height: 64px;
   color: #2f2f2f;
 }
 .download {
   display: flex;
   margin: 0;
-  padding: 0;
+  padding: 0px;
   text-align: left;
 }
 .accessleft {
-  padding-top: 30px;
-  padding-left: 110px;
+  padding: 0px;
 }
 .accesstext {
   padding-top: 10px;
@@ -305,16 +311,15 @@ textarea {
   font-weight: 500;
 }
 .accessright {
-
   height: 240px;
   width: 420px;
-  padding: 100px;
+  padding: 50px;
 }
 .download img{
-  padding-top: 50px;
+  padding: 50px 0px;
   border-radius: 5px;
-  height: 55px;
-  width: 205px;
+  height: 60px;
+  width: 210px;
 }
 
 /* ---- Section 8 ---- */
@@ -399,6 +404,11 @@ textarea {
   justify-content: center;
   font-size: 12px;
 }
+.solution:hover{
+  color: #fff;
+  background-color: #0058cc;
+  cursor: pointer;
+}
 
 .viewmore {
   margin-left: 150px;
@@ -453,33 +463,39 @@ textarea {
 
 /* ---- Section 11 ---- */
 .faqs {
-  padding: 20px;
-  margin: 60px;
-  border: 1px solid;
-  border-color: #cbcbcb;
-  border-radius: 20px;
+  margin: 80px;
+  padding: 3px 25px;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  font-family: "Satoshi", sans-serif;
+  color: #232323;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.faqs h2{
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
 }
 .faqs hr{
-  border: 1px solid #cbcbcb;
-  
+  border: 1px solid #f0f0f0;
 }
-.faqquestions {
-  padding: 20px 0;
-  border-radius: 5px;
-  display: grid;
-  grid-template-columns: 9fr 1fr;
+.faqquestions{
+  font-family: "Satoshi", sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 700;
 }
 .faqquestions:hover{
-  background-color: #f9f9f9;
-  cursor: pointer;
+  background-color: #e8e8e8;
 }
-.faqquestions div {
-  text-align: left;
-}
-.faqquestionsbutton {
-  width: 30px;
-  border-radius: 10px;
-}
+
 
 /* ---- Section 12 ---- */
 footer {
