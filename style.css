@@ -106,7 +106,7 @@ select {
   padding: 10px;
   text-align: center;
   color: #fff;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 500;
 }
 .textbox {
@@ -116,33 +116,87 @@ select {
   align-items: center;
   border:2px solid #1265ec;
   border-radius: 16px;
-  height: 250px;
+  height: 260px;
   width: 890px;
 }
 .questions {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
   gap: 10px;
   
 }
 .questions div{
-  padding: 2px;
-  border: 1px solid;
-  border-radius: 8px;
+  padding: 5px 10px;
+  color: #232323;
+  border: 1px solid rgba(18, 101, 236, .2);
+  border-radius: 10px;
 }
-textarea {
+.textarea {
   margin: 10px 10px;
   height: 150px;
   width: 820px;
   border-radius: 20px;
+  color: grey;
+  font-size: 25px;
+  font-weight: 500;
+  border: none;
+}
+::after{
+  
 }
 .belowtext {
   padding: 10px 0;
   color: #fff;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   gap: 10px;
-  margin: 0px 200px;
+  margin: 0px 185px;
+}
+.belowtext-bottom{
+  display: flex;
+  padding: 5px;
+  gap: 10px;
+  align-content: center;
+}
+.belowtext-bottom img{
+  padding: 2px;
+}
+
+.bottomarea {
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 10px;
+}
+.getsol {
+  align-content: center;
+  text-align: center;
+  color: #fff;
+  background-color: #0058cc;
+  border-radius: 20px;
+  padding: 5px 10px;
+  height: 25px;
+  width: 120px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.addimg {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  height: 40px;
+  width: 300px;
+}
+.addimg div{
+  border: 1px dotted #2f2f2f;
+  border-radius: 8px;
+  font-size: 14px;
+  align-content: center;
+  text-align: center;
+  padding: 5px 10px;
+
 }
 
 /* ---- Section 3 ---- */
@@ -150,67 +204,95 @@ textarea {
   text-align: center;
   background-color: #0e4094;
   color: #fff;
+  padding: 50px;
 }
 .hc {
   margin: 0 0;
   padding-top: 40px;
-  
-  font-size: 45px;
+  font-weight: 600;
+  font-size: 48px;
 }
 .subjects {
-  padding: 0 400px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 .sub {
+  display: flex;
+  gap: 5px;
   margin: 20px 0;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
   background-color:#09275b ;
   border-radius: 5px;
-  padding-top: 6px;
-  height: 25px;
-  width: 100px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  height: 20px;
+}
+.sub img{
+  padding: 3px;
+  height: 15px;
+  width: 15px;
 }
 .diffsol {
   margin: 0px 250px;
   display: flex;
+  gap: 50px;
 }
-.diffsol div {
-  margin: 20px;
-  padding-top: 20px;
-  border: 1px solid;
-  border-radius: 20px;
+.scrollimg{
   height: 500px;
-  width: 350px;
+  width: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 20px;
+
+}
+.diffsol img {
+  display: block;
+  border: 1px solid;
+  width: 100%;
 }
 .ques {
+  margin-top: 1px;
+  display: flex;
+  gap: 10px;
   font-style: italic;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  padding: 20px 10px;
+  font-weight: 600;
+}
+.ques div{
+  padding: 8px;
 }
 
 /* ---- Section 4 ---- */
 .trynow {
-  background-color: rgb(208, 222, 237);
-  height: 600px;
+  background-color: #f0f5fd;
   align-content: center;
+  padding: 20px;
 }
 .trynow h1 {
+  font-size: 48px;
   text-align: center;
 }
 .videos {
-  padding-top: 10px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding-left: 80px;
-  padding-right: 80px;
-  padding-top: 20px;
-  gap: 20px;
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  padding: 10px 70px;
 }
 .videos div{
   text-align: center;
-  padding: 20px ;
-  border: 1px solid;
+  justify-content: center;
+  align-content: center;
+}
+.videoseach {
+  width: 325px;
   border-radius: 20px;
-  height: 350px;
 }
 .key{
   text-align: center;
@@ -258,37 +340,77 @@ textarea {
 /* ---- Section 6 ---- */
 .gobeyond {
   display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: space-between;
   background-color: #f0f5fd;
   font-family: "Satoshi", sans-serif;
+  padding: 80px 192px;
 }
 .boxes {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 20px;
-  padding: 50px;
-  margin-right: 150px;
 }
 .box {
-  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
   padding: 20px;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: fit-content;
   background-color: #fff;
-  font-size: small;
+  gap: 8px;
+}
+.box svg{
+  padding: 0;
+  height: 30px;
+  width: 30px;
+}
+.box h2 {
+  margin: 0;
+  font-size: 22px;
+}
+.boxtext{
+  color: grey;
+  font-size: 12px;
+  font-weight: 500;
 }
 .leftside {
-  margin-left: 100px;
-  padding: 120px;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
 }
-.leftsidebutton{
-  margin: 30px;
-  padding: 10px;
-  background-color: #0058cc;
-  border-radius: 20px;
-  height: 20px;
-  width: 132px;
+.leftside h2{
+  margin: 0;
+  font-size: 48px;
+  color: #232323;
+}
+.leftsidetext {
+  margin: 0;
+  font-weight: 500;
+  font-size: 18px;
+  color: #6a6a6a;
+  line-height: 28px;
+}
+.leftsidebutton {
+  margin-top: 20px;
+  display: block;
+  font-weight: 500;
+}
+.leftsidebutton button{
+  font-size: 14px;
+  text-align: center;
+  align-items: center;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #1356c5;
+  border-radius: 40px;
+  height: 48px;
+  width: 232px;
   color: #fff;
   cursor: pointer;
 }

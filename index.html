@@ -46,18 +46,28 @@
           <div>What causes earthquakes?</div>
         </div>
         <div>
-          <textarea>
-            type your question here
-          </textarea>
+          <div class="textarea" aria-placeholder="type your question here">
+            Type your question here
+            <!-- <input class="textarea" type="text" placeholder="Type your question here"> -->
+          </div>
+        </div>
+        <div class="bottomarea">
+          <div class="addimg">
+            <div>Add a image</div>
+            <div>Add a document</div>
+          </div>
+          <div class="getsol">
+            Get Solution
+          </div>
         </div>
       </div>
       <div class="belowtext">
-        <div>
+        <div class="belowtext-bottom">
           <img src="google-icon.svg" height="20px" width="20px">
-          Google User Choice Award 🏆
+          <div style="font-size: 18px; font-weight: 600;">Google User Choice Award 🏆</div>
         </div>
-        <div style="text-align: right; font-size: small;">
-          Powered by Advanced AI
+        <div class="belowtext-bottom">
+          <div style="padding: 5px; font-size: 12px; font-weight: 500;">Powered by Advanced AI</div>
           <img src="super-ai.svg">
         </div>
       </div>
@@ -67,26 +77,47 @@
     <div class="comparison">
       <div class="hc">We Solve Questions that no one else can</div>
       <div class="subjects">
-        <div class="sub">Chemistry</div>
-        <div class="sub">Maths</div>
-        <div class="sub">Physics</div>
-        <div class="sub">Biology</div>
-        <div class="sub">Geography</div>
+        <div class="sub"><img src="chemistry.svg"><div>Chemistry</div></div>
+        <div class="sub"><img src="math.svg"><div>Maths</div></div>
+        <div class="sub"><img src="physics.svg"><div>Physics</div></div>
+        <div class="sub"><img src="biology.svg"><div>Biology</div></div>
+        <div class="sub"><img src="geography.svg"><div>Geography</div></div>
       </div>
-      <div class="ques">Q. Compare the structures and properties of Graphite and Diamond using labeled diagram and a property table.</div>
+      <div class="ques">
+        <img src="question-icon.svg">
+        <div>Compare the structures and properties of Graphite and Diamond using labeled diagram and a property table.</div>
+      </div>
       <div class="diffsol">
-        <div>Filo Solution</div>
-        <div>ChatGPT Solution</div>
+        <div class="scrollimg">
+          <img src="chem-filo.png">
+          Filo Solution
+        </div>
+        <div class="scrollimg">
+          <img src="chem-gpt.png">
+          ChatGPT Solution
+        </div>
       </div>
     </div>
 
     <!-- ---- ---- Section 4 ---- ---- -->
     <div class="trynow">
-      <h1>Trusted by over 5,00,000 Students</h1>
+      <h1>Trusted by over 5,00,000 Students 👨‍🎓</h1>
       <div class="videos">
-        <div>Video 1</div>
-        <div>Video 2</div>
-        <div>Video 3</div>
+        <div>
+          <video class="videoseach">
+            <source src="https://classroom-video.cdn.askfilo.com/web-assets/ss_promo_2/output.m3u8" type="application/x-mpegURL">
+          </video>
+        </div>
+        <div>
+          <video class="videoseach">
+            <source src="https://classroom-video.cdn.askfilo.com/web-assets/ss_promo_1/output.m3u8">
+          </video>
+        </div>
+        <div>
+          <video class="videoseach">
+            <source src="https://classroom-video.cdn.askfilo.com/web-assets/ss_promo_3/output.m3u8" type="application/x-mpegURL">
+          </video>
+        </div>
       </div>
       <div>
         <div class="key">Try Filo Now</div>
@@ -126,30 +157,30 @@
     <!-- ---- ---- Section 6 ---- ---- -->
     <div class="gobeyond">
       <div class="leftside">
-        <h1>Go beyond just<br>solving questions</h1>
-        <div>Our Explainations are packed with intelligent feature to deepen learning and support homework support</div>
-        <div class="leftsidebutton">Ask your Question</div>
+        <h2>Go Beyond Just<br>Solving Questions</h2>
+        <div class="leftsidetext">Our Explainations are packed with intelligent feature to deepen learning and support homework support</div>
+        <div class="leftsidebutton"><button>Ask your questions</button></div>
       </div>
       <div class="boxes">
         <div class="box">
-          symbol
-          <h3>Ask follow-up for clarity</h3>
-          <div class="note">Ask any number of follow-up questions for full understanding - all tied to your exam syllabus.</div>
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="display:block"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.44575 3.75778C4.28858 3.75778 4.13785 3.82163 4.02672 3.93529C3.91559 4.04895 3.85315 4.2031 3.85315 4.36384V12.8487C3.85315 13.0094 3.91559 13.1636 4.02672 13.2772C4.13785 13.3909 4.28858 13.4547 4.44575 13.4547H11.5569C11.714 13.4547 11.8648 13.3909 11.9759 13.2772C12.087 13.1636 12.1495 13.0094 12.1495 12.8487V4.36384C12.1495 4.2031 12.087 4.04895 11.9759 3.93529C11.8648 3.82163 11.714 3.75778 11.5569 3.75778H10.3717C10.0444 3.75778 9.77908 3.48643 9.77908 3.15171C9.77908 2.817 10.0444 2.54565 10.3717 2.54565H11.5569C12.0284 2.54565 12.4805 2.73721 12.8139 3.07819C13.1473 3.41916 13.3346 3.88162 13.3346 4.36384V12.8487C13.3346 13.3309 13.1473 13.7934 12.8139 14.1343C12.4805 14.4753 12.0284 14.6669 11.5569 14.6669H4.44575C3.97425 14.6669 3.52207 14.4753 3.18867 14.1343C2.85527 13.7934 2.66797 13.3309 2.66797 12.8487V4.36384C2.66797 3.88162 2.85527 3.41916 3.18867 3.07819C3.52207 2.73721 3.97425 2.54565 4.44575 2.54565H5.63093C5.95821 2.54565 6.22352 2.817 6.22352 3.15171C6.22352 3.48643 5.95821 3.75778 5.63093 3.75778H4.44575Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.81409 2.54537V3.75749H9.18446V2.54537H6.81409ZM5.8776 1.75319C6.04222 1.52871 6.31487 1.33325 6.66594 1.33325H9.33261C9.68368 1.33325 9.95634 1.52871 10.121 1.75319C10.2854 1.97748 10.3696 2.25956 10.3696 2.54537V3.75749C10.3696 4.04331 10.2854 4.32539 10.121 4.54968C9.95634 4.77416 9.68368 4.96962 9.33261 4.96962H6.66594C6.31487 4.96962 6.04222 4.77416 5.8776 4.54968C5.71312 4.32539 5.62891 4.04331 5.62891 3.75749V2.54537C5.62891 2.25956 5.71312 1.97748 5.8776 1.75319Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.62891 7.99986C5.62891 7.66514 5.89422 7.3938 6.2215 7.3938H9.77705C10.1043 7.3938 10.3696 7.66514 10.3696 7.99986C10.3696 8.33458 10.1043 8.60592 9.77705 8.60592H6.2215C5.89422 8.60592 5.62891 8.33458 5.62891 7.99986Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.62891 10.4244C5.62891 10.0897 5.89422 9.81836 6.2215 9.81836H7.99928C8.32656 9.81836 8.59187 10.0897 8.59187 10.4244C8.59187 10.7591 8.32656 11.0305 7.99928 11.0305H6.2215C5.89422 11.0305 5.62891 10.7591 5.62891 10.4244Z" fill="#FF8E00"></path></svg>
+          <h2>Ask follow-up for clarity</h2>
+          <div class="boxtext">Ask any number of follow-up questions for full understanding - all tied to your exam syllabus.</div>
         </div>
         <div class="box">
-          symbol
-          <h3>100% Syllabus-Synced</h3>
-          <div class="note">Every solution matches your curriculum - no distractions, no off-topic material.</div>
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="display:block"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.26947 1.33325L10.934 1.33325C11.7699 1.33325 12.4606 1.81036 12.9161 2.38945C13.3733 2.97072 13.6627 3.73503 13.6627 4.48593C13.6627 4.85412 13.3642 5.1526 12.996 5.1526C12.6278 5.1526 12.3294 4.85412 12.3294 4.48593C12.3294 4.05999 12.1572 3.58129 11.8681 3.21377C11.5773 2.84406 11.237 2.66659 10.934 2.66659H5.29791C4.70913 2.66659 4.30897 2.66714 3.99968 2.69325C3.69884 2.71865 3.54418 2.76467 3.43518 2.82206C3.1743 2.95943 2.95815 3.18084 2.82139 3.45821C2.76211 3.57844 2.71636 3.74652 2.6914 4.0623C2.66586 4.38526 2.66538 4.80196 2.66538 5.40931V10.8785C2.66538 11.2289 2.66673 11.3416 2.67767 11.4276C2.7631 12.0981 3.26847 12.6023 3.88138 12.6857C3.88079 12.6857 3.88141 12.6857 3.88338 12.6859C3.89108 12.6864 3.91938 12.6886 3.9767 12.6906C4.04021 12.6929 4.11977 12.6946 4.20867 12.6957C4.38624 12.6979 4.58761 12.6979 4.74804 12.6979C5.11623 12.6979 5.41471 12.9964 5.41471 13.3646C5.41471 13.7327 5.11623 14.0312 4.74804 14.0312H4.74624C4.58768 14.0312 4.37868 14.0312 4.19202 14.0289C4.02623 14.0268 3.8188 14.0228 3.70169 14.0069C2.46405 13.8385 1.51324 12.8379 1.35503 11.5961C1.33193 11.4147 1.33197 11.2098 1.33204 10.9248C1.33204 10.9096 1.33204 10.8942 1.33204 10.8785L1.33204 5.38231C1.33204 4.80855 1.33203 4.33895 1.36221 3.95722C1.39343 3.56235 1.46005 3.20417 1.62552 2.86858C1.88414 2.34405 2.29889 1.9135 2.81398 1.64228C3.14607 1.46742 3.50066 1.39731 3.8875 1.36465C4.25954 1.33324 4.71623 1.33324 5.26947 1.33325ZM5.39404 4.13079C5.39404 3.7626 5.69252 3.46412 6.06071 3.46412H9.5387C9.90689 3.46412 10.2054 3.7626 10.2054 4.13079C10.2054 4.49898 9.90689 4.79746 9.5387 4.79746H6.06071C5.69252 4.79746 5.39404 4.49898 5.39404 4.13079ZM5.39404 6.6168C5.39404 6.24861 5.69252 5.95014 6.06071 5.95014H9.49737C9.86556 5.95014 10.164 6.24861 10.164 6.6168C10.164 6.98499 9.86556 7.28347 9.49737 7.28347H6.06071C5.69252 7.28347 5.39404 6.98499 5.39404 6.6168ZM11.4547 6.68194C12.1891 5.92303 13.3891 5.92303 14.1235 6.68194C14.846 7.42855 14.846 8.63027 14.1235 9.37688L10.5848 13.0338C10.5714 13.0476 10.5582 13.0613 10.5451 13.0749C10.2318 13.3988 10.017 13.6208 9.76766 13.8002C9.54677 13.9592 9.30801 14.091 9.05629 14.1925C8.77163 14.3074 8.47146 14.3686 8.03737 14.4571C8.01897 14.4609 8.00034 14.4647 7.98146 14.4685L7.07777 14.6531C6.85586 14.6984 6.62612 14.628 6.46776 14.4661C6.30939 14.3041 6.24407 14.0729 6.29431 13.852L6.51292 12.8911C6.51684 12.8738 6.52072 12.8568 6.52454 12.84C6.61994 12.4203 6.6845 12.1363 6.79383 11.867C6.89068 11.6284 7.01301 11.4013 7.15877 11.1899C7.3236 10.9509 7.52456 10.7433 7.81916 10.4389C7.83114 10.4266 7.84327 10.414 7.85556 10.4013L11.4547 6.68194ZM13.1653 7.60913C12.955 7.39174 12.6233 7.39174 12.4129 7.60913L8.81373 11.3285C8.46964 11.6841 8.35096 11.8097 8.25649 11.9468C8.16611 12.0779 8.08983 12.2193 8.02923 12.3685C7.96768 12.5202 7.92702 12.6865 7.82374 13.1399C8.25134 13.052 8.41127 13.015 8.55745 12.956C8.70934 12.8947 8.85416 12.8149 8.98882 12.718C9.12967 12.6167 9.25891 12.4866 9.62666 12.1066L13.1653 8.44968C13.3876 8.22 13.3876 7.83882 13.1653 7.60913Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 4.13354C3.5 3.8574 3.72386 3.63354 4 3.63354H4.33333C4.60948 3.63354 4.83333 3.8574 4.83333 4.13354C4.83333 4.40969 4.60948 4.63354 4.33333 4.63354H4C3.72386 4.63354 3.5 4.40969 3.5 4.13354Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 6.66675C3.5 6.39061 3.72386 6.16675 4 6.16675H4.33333C4.60948 6.16675 4.83333 6.39061 4.83333 6.66675C4.83333 6.94289 4.60948 7.16675 4.33333 7.16675H4C3.72386 7.16675 3.5 6.94289 3.5 6.66675Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 9.33325C3.5 9.05711 3.72386 8.83325 4 8.83325H4.33333C4.60948 8.83325 4.83333 9.05711 4.83333 9.33325C4.83333 9.60939 4.60948 9.83325 4.33333 9.83325H4C3.72386 9.83325 3.5 9.60939 3.5 9.33325Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 9.33325C5.5 9.05711 5.72386 8.83325 6 8.83325H7C7.27614 8.83325 7.5 9.05711 7.5 9.33325C7.5 9.60939 7.27614 9.83325 7 9.83325H6C5.72386 9.83325 5.5 9.60939 5.5 9.33325Z" fill="#FF8E00"></path></svg>
+          <h2>100% Syllabus-Synced</h2>
+          <div class="boxtext">Every solution matches your curriculum - no distractions, no off-topic material.</div>
         </div>
         <div class="box">
-          symbol
-          <h3>Easy-to-Understand</h3>
-          <div class="note">We don't just give answers - we explain the how and why in clear, in digestible steps.</div>
+          <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" style="display:block"><path xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" d="M10.2887 0.674004C10.7369 0.441999 11.2631 0.441999 11.7112 0.674004C12.1066 0.878681 12.3127 1.23834 12.4117 1.42348C12.5188 1.62371 12.6285 1.88055 12.7381 2.13721C12.7433 2.14954 12.7486 2.16187 12.7539 2.1742L14.671 6.66195L19.3924 7.18192C19.6602 7.21136 19.9281 7.24082 20.1437 7.2852C20.343 7.32623 20.7346 7.4197 21.0433 7.74877C21.3932 8.12176 21.5558 8.64405 21.4829 9.16044C21.4185 9.616 21.1544 9.93175 21.0162 10.0872C20.8668 10.2553 20.6666 10.4435 20.4666 10.6316L16.9398 13.948L17.9248 18.7942C17.9808 19.069 18.0367 19.344 18.0629 19.5717C18.0871 19.7822 18.1229 20.1996 17.9183 20.6076C17.6865 21.0702 17.2607 21.393 16.7675 21.4801C16.3324 21.557 15.963 21.3925 15.7786 21.3034C15.5792 21.2071 15.3458 21.0666 15.1126 20.9262L11 18.451L6.88737 20.9262C6.65415 21.0666 6.42078 21.2071 6.22138 21.3034C6.037 21.3925 5.6676 21.557 5.23249 21.4801C4.73928 21.393 4.31349 21.0702 4.08166 20.6076C3.87713 20.1996 3.91293 19.7822 3.93713 19.5717C3.9633 19.344 4.01925 19.069 4.07517 18.7941L5.06023 13.948L1.5623 10.6587C1.55269 10.6497 1.54307 10.6406 1.53345 10.6316C1.33339 10.4435 1.13319 10.2553 0.98378 10.0872C0.845629 9.93175 0.581533 9.616 0.517141 9.16044C0.444152 8.64405 0.606787 8.12176 0.956718 7.74877C1.26543 7.4197 1.65695 7.32623 1.85629 7.2852C2.07187 7.24082 2.33984 7.21136 2.60763 7.18192C2.62051 7.1805 2.63338 7.17908 2.64626 7.17767L7.32902 6.66195L9.24613 2.1742C9.2514 2.16186 9.25667 2.14952 9.26193 2.13718C9.37152 1.88053 9.48118 1.6237 9.58825 1.42348C9.68725 1.23834 9.89343 0.878681 10.2887 0.674004ZM11 3.53679L9.22767 7.68564C9.22356 7.69525 9.21889 7.70646 9.21364 7.71908C9.16292 7.84083 9.05781 8.09318 8.87994 8.29924C8.72999 8.47296 8.54674 8.61188 8.34207 8.70701C8.09929 8.81985 7.83681 8.84618 7.71017 8.85889C7.69704 8.8602 7.68538 8.86137 7.67535 8.86248L3.34621 9.33925L6.57998 12.3802C6.58748 12.3872 6.59625 12.3953 6.60613 12.4044C6.70142 12.4924 6.89895 12.6747 7.0318 12.9148C7.14379 13.1173 7.21379 13.3421 7.23725 13.5746C7.26507 13.8504 7.20796 14.119 7.18041 14.2487C7.17755 14.2621 7.17501 14.274 7.17292 14.2843L6.2697 18.7278L10.0406 16.4584C10.0493 16.4531 10.0594 16.4469 10.0708 16.4399C10.1804 16.3725 10.4076 16.2328 10.6676 16.1752C10.8867 16.1267 11.1133 16.1267 11.3324 16.1752C11.5924 16.2328 11.8196 16.3725 11.9292 16.4399C11.9406 16.4469 11.9506 16.4531 11.9594 16.4584L15.7303 18.7278L14.8271 14.2843C14.825 14.274 14.8224 14.2621 14.8196 14.2487C14.792 14.1191 14.7349 13.8504 14.7627 13.5746C14.7862 13.3421 14.8562 13.1173 14.9682 12.9148C15.101 12.6747 15.2986 12.4924 15.3939 12.4044C15.4037 12.3953 15.4125 12.3872 15.42 12.3802L18.6538 9.33925L14.3247 8.86248C14.3146 8.86137 14.303 8.8602 14.2898 8.85889C14.1632 8.84618 13.9007 8.81985 13.6579 8.70701C13.4533 8.61188 13.27 8.47296 13.1201 8.29924C12.9422 8.09318 12.8371 7.84083 12.7864 7.71908C12.7811 7.70646 12.7764 7.69525 12.7723 7.68564L11 3.53679Z" fill="#FF8E00"></path></svg>
+          <h2>Easy-to-Understand</h2>
+          <div class="boxtext">We don't just give answers - we explain the how and why in clear, in digestible steps.</div>
         </div>
         <div class="box">
-          symbol
-          <h3>Backed by cutting-edge AI</h3>
-          <div class="note">Our models continuously improve to give sharper answers, better performance feedback.</div>
+          <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" style="display:block"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.33203 14.0001C2.33203 12.7114 3.3767 11.6667 4.66536 11.6667H10.4987C11.143 11.6667 11.6654 12.1891 11.6654 12.8334V23.3334C11.6654 23.9777 11.143 24.5001 10.4987 24.5001H3.4987C2.85437 24.5001 2.33203 23.9777 2.33203 23.3334V14.0001ZM9.33203 14.0001H4.66536V22.1667H9.33203V14.0001Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.332 9.33341C16.332 8.68908 16.8544 8.16675 17.4987 8.16675H23.332C24.6207 8.16675 25.6654 9.21142 25.6654 10.5001V23.3334C25.6654 23.9777 25.143 24.5001 24.4987 24.5001H17.4987C16.8544 24.5001 16.332 23.9777 16.332 23.3334V9.33341ZM18.6654 10.5001V22.1667H23.332V10.5001H18.6654Z" fill="#FF8E00"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.33203 5.83333C9.33203 4.54467 10.3767 3.5 11.6654 3.5H16.332C17.6207 3.5 18.6654 4.54467 18.6654 5.83333V23.3333C18.6654 23.9777 18.143 24.5 17.4987 24.5H10.4987C9.85437 24.5 9.33203 23.9777 9.33203 23.3333V5.83333ZM16.332 5.83333H11.6654V22.1667H16.332V5.83333Z" fill="#FF8E00"></path></svg>
+          <h2>Backed by cutting-edge AI</h2>
+          <div class="boxtext">Our models continuously improve to give sharper answers, better performance feedback.</div>
         </div>
       </div>
     </div>
