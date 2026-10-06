@@ -16,7 +16,7 @@ select {
   font-family: inherit;
 }
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 
@@ -67,20 +67,44 @@ select {
   font-weight: 400;
   display: flex;
   text-align: center;
-  gap: 6px;
+  gap: 5px;
   padding-left: 228px; 
 }
 .links {
   padding: 8px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
 }
 .links:hover{
   color: #0058cc;
   cursor: pointer;
 }
 
+.dropdown{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dropdown:hover{
+  overflow-x: auto;
+}
+.dropdown-arrow{
+  height: 16px;
+  width: 16px;
+}
+.dropdown-holder{
+  overflow: hidden;
+}
+.dropdown-link-holder{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 /* ---- Section 2 ---- */
 .section {  
-  margin: 0;  
+  margin-top: 75px;  
   background-image: url(heroimage.jpg);
   width: 100%;
   height: 100%;
@@ -90,7 +114,7 @@ select {
 }
 .section2-text {
   margin: 30px 50px;
-  padding-top: 100px;
+  padding-top: 70px;
   text-align: center;
   color: #fff;
   font-size: 55px;
@@ -121,7 +145,6 @@ select {
 }
 .questions {
   display: flex;
-  justify-content: space-between;
   font-size: 14px;
   font-weight: 500;
   gap: 10px;
@@ -237,14 +260,14 @@ select {
   width: 15px;
 }
 .diffsol {
-  margin: 0px 250px;
+  margin: 0px 170px;
   display: flex;
   gap: 50px;
 }
 .scrollimg{
   height: 500px;
-  width: 450px;
-  overflow-y: scroll;
+  width: 500px;
+  overflow-y: auto;
   overflow-x: hidden;
   border-radius: 20px;
 
@@ -401,8 +424,11 @@ select {
   font-weight: 500;
 }
 .leftsidebutton button{
+  display: flex;
+  gap: 5px;
   font-size: 14px;
   text-align: center;
+  justify-content: center;
   align-items: center;
   border: none;
   font-size: 16px;
@@ -413,6 +439,11 @@ select {
   width: 232px;
   color: #fff;
   cursor: pointer;
+}
+.leftsidebuttonimg {
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
 }
 
 /* ---- Section 7 ---- */
@@ -425,8 +456,8 @@ select {
   padding: 20px 100px;
 }
 .maintext {
-  font-size: 43px;
-  line-height: 64px;
+  font-size: 44px;
+  line-height: 62px;
   color: #2f2f2f;
 }
 .download {
@@ -441,7 +472,7 @@ select {
 .accesstext {
   padding-top: 10px;
   color: #6a6a6a;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
 }
 .accessright {
@@ -598,36 +629,42 @@ select {
 /* ---- Section 11 ---- */
 .faqs {
   margin: 80px;
-  padding: 3px 25px;
   border: 1px solid #f0f0f0;
   border-radius: 12px;
   font-family: "Satoshi", sans-serif;
   color: #232323;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 .faqs h2{
-  margin-bottom: 10px;
+  margin: 0;
+  padding: 20px;
   font-size: 28px;
   font-weight: 700;
 }
 .faqs hr{
   border: 1px solid #f0f0f0;
+  margin: 0 20px;
 }
 .faqquestions{
+  margin: 0;
   font-family: "Satoshi", sans-serif;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 15px 0;
+  gap: 10px;
+  padding: 16px 24px;
   font-size: 16px;
   font-weight: 700;
 }
 .faqquestions:hover{
-  background-color: #e8e8e8;
+  background-color: rgba(66, 133, 244, .039);
+  cursor: pointer;
+}
+.faq-section-dropdown{
+  height: 24px;
+  width: 24px;
 }
 
 
