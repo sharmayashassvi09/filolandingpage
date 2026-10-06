@@ -51,11 +51,21 @@
       </h1>
       <h3 class="section2-text2">Join 5 Million+ Students from 60+ Countries</h3>
       <div class="textbox">
-        <div class="questions">
-          <div>What is global warming?</div>
-          <div>Who painted Mona Lisa?</div>
-          <div>Atomic number of Carbon?</div>
-          <div>What causes earthquakes?</div>
+        <div class="questions-container">
+          <div class="questions">
+            <div class="eachquestion">What is global warming?</div>
+            <div class="eachquestion">Who painted Mona Lisa?</div>
+            <div class="eachquestion">Atomic number of Carbon?</div>
+            <div class="eachquestion">What causes earthquakes?</div>
+            <div class="eachquestion">Explain 'Continental drift'.</div>
+            <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
+            <div class="eachquestion">What is global warming?</div>
+            <div class="eachquestion">Who painted Mona Lisa?</div>
+            <div class="eachquestion">Atomic number of Carbon?</div>
+            <div class="eachquestion">What causes earthquakes?</div>
+            <div class="eachquestion">Explain 'Continental drift'.</div>
+            <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
+          </div>
         </div>
         <div>
           <div class="textarea">
@@ -88,23 +98,23 @@
     <div class="comparison">
       <div class="hc">We Solve Questions that no one else can</div>
       <div class="subjects">
-        <div class="sub"><img src="chemistry.svg"><div>Chemistry</div></div>
-        <div class="sub"><img src="math.svg"><div>Maths</div></div>
-        <div class="sub"><img src="physics.svg"><div>Physics</div></div>
-        <div class="sub"><img src="biology.svg"><div>Biology</div></div>
-        <div class="sub"><img src="geography.svg"><div>Geography</div></div>
+        <div class="sub" id="chemimg"><img src="chemistry.svg"><div>Chemistry</div></div>
+        <div class="sub" id="mathimg"><img src="math.svg"><div>Maths</div></div>
+        <div class="sub" id="phyimg"><img src="physics.svg"><div>Physics</div></div>
+        <div class="sub" id="bioimg"><img src="biology.svg"><div>Biology</div></div>
+        <div class="sub" id="geoimg"><img src="geography.svg"><div>Geography</div></div>
       </div>
       <div class="ques">
         <img src="question-icon.svg">
-        <div>Compare the structures and properties of Graphite and Diamond using labeled diagram and a property table.</div>
+        <div class="changingques">Compare the structures and properties of Graphite and Diamond using labeled diagram and a property table.</div>
       </div>
       <div class="diffsol">
         <div class="scrollimg">
-          <img src="chem-filo.png">
+          <img src="chem-filo.png" class="filoimage">
           Filo Solution
         </div>
         <div class="scrollimg">
-          <img src="chem-gpt.png">
+          <img src="chem-gpt.png" class="chatgptimage">
           ChatGPT Solution
         </div>
       </div>
@@ -293,7 +303,7 @@
             <div class="viewmore">View More</div>
           </div>
           
-          <hr style="border-color: rgba(18, 101, 236, .2);">
+          <div style="background-color: rgba(18, 101, 236, .2); width: 1px;"></div>
           
           <div class="sides">
             <h2>College/University Student on Filo</h2>
@@ -358,11 +368,11 @@
     <!-- ---- ---- Section 10 ---- ---- -->
     <div class="chromeextension">
       <div class="ext">
-        <div class="chromeheading">Become 10X faster with Filo Plugin!</div>
-        <div class="chrometext">Take screenshot from your study website and get solutions and<br>explainations.</div>
+        <div class="chromeheading">Become 10X faster with Filo<br>Plugin!</div>
+        <div class="chrometext">Take screenshot from your study website and get<br>solutions and explainations.</div>
         <div class="chromebutton">
-          Add to Chrome
-          <i class="fa fa-chrome" style="font-size: large;"></i>
+          <div>Add to Chrome</div>
+          <img src="chrome_icon.svg" height="20px" width="20px">
         </div>
       </div>
       <div class="chromeimg">
@@ -465,20 +475,20 @@
           <p class="footer-section-heading">Explore Tutors by Cities</p>
           <div class="footerlinks">
             <div class="item"><a>Tutors in New York City</a></div>
-            <div class="item"><a>Tutors in Houston</a></div>
-            <div class="item"><a>Tutors in San Antonio</a></div>
-            <div class="item"><a>Tutors in San Jose</a></div>
             <div class="item"><a>Tutors in Chicago</a></div>
-            <div class="item"><a>Tutors in Dallas</a></div>
-            <div class="item"><a>Tutors in Oklahoma City</a></div>
-            <div class="item"><a>Tutors in Boston</a></div>
             <div class="item"><a>Tutors in San Diego</a></div>
-            <div class="item"><a>Tutors in San Francisco</a></div>
-            <div class="item"><a>Tutors in Phoenix</a></div>
-            <div class="item"><a>Tutors in Seatle</a></div>
             <div class="item"><a>Tutors in Los Angeles</a></div>
+            <div class="item"><a>Tutors in Houston</a></div>
+            <div class="item"><a>Tutors in Dallas</a></div>
+            <div class="item"><a>Tutors in San Francisco</a></div>
             <div class="item"><a>Tutors in Philadelphia</a></div>
+            <div class="item"><a>Tutors in San Antonio</a></div>
+            <div class="item"><a>Tutors in Oklahoma City</a></div>
+            <div class="item"><a>Tutors in Phoenix</a></div>
             <div class="item"><a>Tutors in Austin</a></div>
+            <div class="item"><a>Tutors in San Jose</a></div>
+            <div class="item"><a>Tutors in Boston</a></div>
+            <div class="item"><a>Tutors in Seatle</a></div>
             <div class="item"><a>Tutors in Washington, D.C.</a></div>
           </div>
         </div>
@@ -490,7 +500,7 @@
             <div class="footerlogo">
               <a><img src="logo-inverted.svg" class="logoImg"></a>
               <a>
-                <div class="logotext">
+                <div class="footerlogotext">
                   World's only 
                   <span class="text" style=" color: #ff8e00">
                     instant<br>tutoring
@@ -500,7 +510,11 @@
               </a>
             </div>
             <p>Connect to a tutor in 60 seconds, 24X7</p>
-            <hr style="border-color:rgb(130, 136, 154);">
+            <div class="belowlogo">
+              <img src="https://lh3.googleusercontent.com/HLrmJJdY_UN1Z682QESenpGTO7pAboDbETn1iNe5NHZ7Wd-Kv63IBv5jojJBljDNK7qH6CI99W7WwyFyn61wEG7YSMJxQCCRWS0S=rw-w104-h84-p" draggable="false" alt="ISO Certified" loading="lazy" class="IsoCertifiedCard_iso-icon__NqdI5" width="44" height="34">
+              <div class="belowlogonumber">27001</div>
+              <div class="belowlogotext">Filo is <br><b>ISO 27001:2022</b> Certified</div>
+            </div>
           </div>
           <div class="footer-right">
             <div class="footereachcol">
@@ -524,20 +538,29 @@
               <div class="footerlast"><a>Terms and Conditions</a></div>
             </div>
             <div class="footereachcol">
-              <div>
-                <i class="fa fa-facebook" style="font-size: large;"></i>
-                <i class="fa fa-youtube-play" style="font-size: large;"></i>
-                <i class="fa fa-twitter" style="font-size: large;"></i>
-                <i class="fa fa-instagram" style="font-size: large;"></i>
-                <i class="fa fa-linkedin-square" style="font-size: large;"></i>
+              <div style="margin: 0 0;">
+                <i class="fa fa-facebook" style="height: 18; width: 20;"></i>
+                <i class="fa fa-youtube-play" style="height: 18; width: 20;"></i>
+                <i class="fa fa-twitter" style="height: 18; width: 20;"></i>
+                <i class="fa fa-instagram" style="height: 18; width: 20;"></i>
+                <i class="fa fa-linkedin-square" style="height: 18; width: 20;"></i>
               </div>
-              <div>Copyright to Filo Edtech INC, 2025</div>
+              <p style="font-size: 12px; margin: 0 5;">© Copyright Filo EdTech INC. 2025</p>
             </div>
           </div>
         </div>
+        <div class="footer-recaptcha-text">
+          This site is protected by reCAPTCHA and the Google
+          <!-- --> 
+          <a href="https://policies.google.com/privacy">Privacy Policy</a> 
+          and
+          <!-- --> 
+          <a href="https://policies.google.com/terms">Terms of Service</a> 
+          <!-- -->
+          apply.</div>
       </div>
     </footer>
     
   </body>
-
+  <script src="script.js"></script>
 </html>

@@ -1,10 +1,11 @@
-@import url("https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@100,200,300,400,500,600,700&display=swap");
 
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
   scrollbar-width: none;
   font-family: "Satoshi", sans-serif;
 }
@@ -24,9 +25,7 @@ select {
 /* ---- Section 1 ---- */
 .container {
   background: #fff;
-  max-width: 1600px;
   margin: 0 auto;
-  padding: auto;
   position: fixed;
   z-index: 999;
   top: 0;
@@ -143,18 +142,26 @@ select {
   height: 260px;
   width: 890px;
 }
+.questions-container{
+  overflow: hidden;
+}
 .questions {
   display: flex;
   font-size: 14px;
   font-weight: 500;
   gap: 10px;
-  
+  z-index: 1;
 }
-.questions div{
+.eachquestion{
+  flex: 0 0 auto;
   padding: 5px 10px;
   color: #232323;
   border: 1px solid rgba(18, 101, 236, .2);
   border-radius: 10px;
+}
+.eachquestion:hover{
+  cursor: pointer;
+  border: 1px solid #1265ec;
 }
 .textarea {
   margin: 10px 10px;
@@ -253,6 +260,9 @@ select {
   font-size: 14px;
   font-weight: 500;
   height: 20px;
+}
+.sub:hover{
+  cursor: pointer;
 }
 .sub img{
   padding: 3px;
@@ -497,6 +507,7 @@ select {
 .newsimgholder {
   padding: 20px;
   display: flex;
+  justify-content: space-between;
 }
 .newsimg {
   height: 100px;
@@ -511,20 +522,22 @@ select {
   font-family: "Satoshi", sans-serif;
 }
 .studentsonfilohead {
-  margin: 50px auto;
 }
 .studentsonfilohead h1 {
-  padding: 20px;
+  font-size: 42px;
+  margin: 36px 0px;
+  padding: 0 20px;
 }
 
 .studentsonfilo {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  font-size: 17px;
 }
 
 .sides {
-  padding: 20px;
+  margin: 0;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   flex: 1 1;
@@ -589,21 +602,25 @@ select {
 
 /* ---- Section 10 ---- */
 .chromeextension {
-  padding: 100px 80px;
+  padding: 80px 120px;
   display: grid;
   grid-template-columns: 2fr 1fr;
   font-family: "Satoshi", sans-serif;
 }
+.ext {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
 .chromeheading {
-  padding: 10px;
-  font-size: 28px;
-  font-weight: 550;
-  font-style: bold;
+  font-size: 32px;
+  font-weight: 600;
 }
 .chrometext {
-  padding: 10px;
-  font-size: 15px;
-  color: grey;
+  font-size: 20px;
+  font-weight: 500;
+  color: #6a6a6a;
 }
 .chromeimg {
   border: 1px solid;
@@ -613,17 +630,20 @@ select {
   width: 200px;
 }
 .chromebutton {
-  margin-top: 20px;
-  margin-left: 10px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
   padding: 8px;
   text-align: center;
   background-color: #0058cc;
-  border-radius: 20px;
-  height: 25px;
-  width: 170px;
+  border-radius: 40px;
+  height: 32px;
+  width: 200px;
   color: #fff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* ---- Section 11 ---- */
@@ -654,7 +674,7 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 16px 24px;
+  padding: 20px;
   font-size: 16px;
   font-weight: 700;
 }
@@ -674,15 +694,14 @@ footer {
   color: #fff;
   margin: 0;
   padding: 20px;
-  font-size: 12px;
   font-family: "Satoshi", sans-serif;
 }
-
 .footer-section {
   border-bottom: 1px solid hsla(0, 0%, 100%, .1);
 }
 .footer-section-heading {
   font-size: 32px;
+  font-weight: 500;
   line-height: 44px;
   margin: 36px;
   text-align: center;
@@ -694,9 +713,9 @@ footer {
   width: 100%;
   margin: 0 auto 60px;
   font-size: 16px;
+  font-weight: 400;
 }
 .item {
-  font-weight: 100;
   width: 23%;
   padding: 5px;
 }
@@ -707,41 +726,92 @@ footer {
 
 .cols {
   display: flex;
-  padding: 50px;
-  flex-direction: row;
+  padding: 40px 60px;
+  gap: 50px;
 }
 .footerleft {
-  padding-top: 100px;
-  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  width: 50%;
+}
+.footerleft p{
+  font-size: 14px;
+  font-weight: 200;
+  margin: 0 10;
 }
 .footerlogo {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.footerlogotext{
+  margin: auto 0 auto 10px;
+  border-left: 1px solid #e8e8e8;
+  padding: 0 12px;
+  font-size: 14px;
+  display: inline-block;
+  align-content: center;
+  line-height: 20px;
+  font-weight: 400;
+}
+.belowlogo{
+  border-top: 1px solid rgb(130, 136, 154);
+  display: flex;
+  padding: 10px 0 0 0;
+  width: 80%;
+  align-items: center;
+  gap:5px;
+}
+.belowlogonumber{
+  font-size: 16px;
+  font-weight: 600;
+}
+.belowlogotext{
+  margin: 5px 15px;
+  padding: 0 0 0 10px;
+  border-left: 1px solid rgb(130, 136, 154);
+  font-size: 11px;
+  line-height: 1.5;
 }
 .footer-right {
-  padding-left: 70px;
   display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 .footereachcol {
-  padding: 0 70px;
   width: 100%;
 }
 .footerlast {
-  font-size: 13px;
-  font-weight: 100;
-  width: 110%;
-  padding: 5px;
+  padding: 5px 0;
+  font-size: 14px;
 }
 .footerlast a:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-
 .fa {
   padding: 2px;
   font-size: 3px;
   width: 30px;
   text-align: center;
+  text-decoration: none;
+}
+.footer-recaptcha-text{
+  margin-left: 20px;
+  padding-left: 40px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 300;
+}
+.footer-recaptcha-text a {
+  color: #fff;
   text-decoration: none;
 }
 
