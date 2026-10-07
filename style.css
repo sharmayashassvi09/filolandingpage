@@ -119,9 +119,7 @@ select {
   font-size: 55px;
   line-height: 70px;
 }
-.heading {
 
-}
 .subheading {
   color: #ff8e00;
 }
@@ -172,9 +170,6 @@ select {
   font-size: 25px;
   font-weight: 500;
   border: none;
-}
-::after{
-  
 }
 .belowtext {
   padding: 10px 0;
@@ -527,8 +522,6 @@ select {
   margin: 0 auto;
   padding: 40px 140px;
   font-family: "Satoshi", sans-serif;
-}
-.studentsonfilohead {
 }
 .studentsonfilohead h1 {
   font-size: 42px;
