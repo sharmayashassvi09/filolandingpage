@@ -261,6 +261,10 @@ select {
   font-weight: 500;
   height: 20px;
 }
+#subactive {
+  background-color: #1265ec;
+  border-color: #1265ec;
+}
 .sub:hover{
   cursor: pointer;
 }
