@@ -92,3 +92,18 @@ function currentlyActive(){
 	chem.id = "subactive";
 }
 currentlyActive();
+
+// <--- ---- ---- Section 4 Video Play ---- ---- --->
+const videos = document.querySelectorAll(".videoseach");
+videos.forEach(video => {
+	video.addEventListener("mouseenter", () => {
+		video.play();
+	});
+});
+
+videos.forEach(video => {
+	video.addEventListener("mouseleave", () => {
+		video.currentTime = 0;
+		video.pause();
+	});
+});

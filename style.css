@@ -331,6 +331,9 @@ select {
   width: 325px;
   border-radius: 20px;
 }
+.videoseach:hover {
+  cursor: pointer;
+}
 .key{
   text-align: center;
   margin-top: 20px;
