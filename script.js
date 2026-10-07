@@ -3,9 +3,9 @@ const questions = document.querySelector(".questions");
 const questionsContainer = document.querySelector(".questions-container");
 let position = 0;
 const speed = 1;
-let mouse = false;
+let movequestions = true;
 function moveQuestions() {
-  if(!mouse){ 
+  if(movequestions){ 
 		position -= speed;
     const resetPoint = questions.scrollWidth / 2 + 5;
     if (Math.abs(position) >= resetPoint) {
@@ -16,14 +16,14 @@ function moveQuestions() {
   requestAnimationFrame(moveQuestions);
 }
 questionsContainer.addEventListener("mouseenter", () => {
-	mouse = true;
+	movequestions = false;
 });
 questionsContainer.addEventListener("mouseleave", () => {
-	mouse = false;
+	movequestions = true;
 });
 moveQuestions();
 
-// <--- ---- ---- Section 3 Image change ---- ---- --->
+// <--- ---- ---- Comparison Image change ---- ---- --->
 const filoimage = document.querySelector(".filoimage");
 const chatgptimg = document.querySelector(".chatgptimage");
 const changequestion = document.querySelector(".changingques");
@@ -124,13 +124,13 @@ videos.forEach(video => {
 	});
 });
 
-// <--- ---- ---- Section 8 News Carousel ---- ---- --->
+// <--- ---- ---- News Carousel ---- ---- --->
 const newsholder = document.querySelector(".newsimgholder");
 const newsContainer = document.querySelector(".newsimg-container");
 let newsposition = 0;
-let news = false;
+let movenews = true;
 function moveNews(){
-	if(!news){
+	if(movenews){
 		newsposition -= speed;
 		const reset = newsholder.scrollWidth / 2;
 		if (Math.abs(newsposition) >= reset){
@@ -143,13 +143,13 @@ function moveNews(){
 moveNews();
 
 newsContainer.addEventListener("mouseenter", () => {
-	news = true;
+	movenews = false;
 });
 newsContainer.addEventListener("mouseleave", () => {
-	news = false;
+	movenews = true;
 });
 
-// <--- ---- ---- Section 7 Cards ---- ---- --->
+// <--- ---- ---- Cards Carousel ---- ---- --->
 const cards = document.querySelector(".cards");
 const cardContainer = document.querySelector(".cards-container");
 
