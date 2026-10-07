@@ -459,6 +459,22 @@ select {
 }
 
 /* ---- Section 7 ---- */
+.filo-journey {
+  padding: 40px 50px;
+}
+.filo-journey h2{
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+}
+.cards{
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 20px;
+}
+
+/* ---- Section 8 ---- */
 .accessanywhere {
   background-color: #f9f9f9;
   display: flex;
@@ -499,7 +515,7 @@ select {
   width: 210px;
 }
 
-/* ---- Section 8 ---- */
+/* ---- Section 9 ---- */
 .news {
   padding: 40px 50px;
 }
@@ -515,7 +531,7 @@ select {
   gap: 20px;
 }
 
-/* ---- Section 9 ---- */
+/* ---- Section 10 ---- */
 .studentsonfilocontainer {
   background-color: #f0f5fd;
   margin: 0 auto;
@@ -599,7 +615,7 @@ select {
   cursor: pointer;
 }
 
-/* ---- Section 10 ---- */
+/* ---- Section 11 ---- */
 .chromeextension {
   padding: 80px 120px;
   display: grid;
@@ -645,7 +661,7 @@ select {
   font-weight: 500;
 }
 
-/* ---- Section 11 ---- */
+/* ---- Section 12 ---- */
 .faqs {
   margin: 80px;
   border: 1px solid #f0f0f0;
@@ -687,7 +703,7 @@ select {
 }
 
 
-/* ---- Section 12 ---- */
+/* ---- Section 13 ---- */
 footer {
   background: linear-gradient(91.12deg, #0e4094 2.41%, #1356c5 110.59%);
   color: #fff;

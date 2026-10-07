@@ -148,3 +148,30 @@ newsContainer.addEventListener("mouseenter", () => {
 newsContainer.addEventListener("mouseleave", () => {
 	news = false;
 });
+
+// <--- ---- ---- Section 7 Cards ---- ---- --->
+const cards = document.querySelector(".cards");
+const cardContainer = document.querySelector(".cards-container");
+
+let cardPosition = 0;
+let movingcards = true;
+
+function moveCards() {
+	if (movingcards){
+		cardPosition -= speed;
+		const resetCard = cards.scrollWidth / 2 + 5;
+		if (Math.abs(cardPosition) >= resetCard){
+			cardPosition = 0;
+		}
+		cards.style.transform = `translateX(${cardPosition}px)`;
+	}
+	requestAnimationFrame(moveCards);
+}
+moveCards();
+
+cardContainer.addEventListener("mouseenter", () => {
+	movingcards = false;
+});
+cardContainer.addEventListener("mouseleave", () => {
+	movingcards = true;
+});
