@@ -123,3 +123,17 @@ videos.forEach(video => {
 		video.pause();
 	});
 });
+
+// <--- ---- ---- Section 8 News Carousel ---- ---- --->
+const newsholder = document.querySelector(".newsimgholder");
+let newsposition = 0;
+function moveNews(){
+	newsposition -= speed;
+	const reset = newsholder.scrollWidth / 2 - 10;
+	if (Math.abs(newsposition) >= reset){
+		newsposition = 0;
+	}
+	newsholder.style.transform = `translateX(${newsposition}px)`;
+	requestAnimationFrame(moveNews);
+}
+moveNews();

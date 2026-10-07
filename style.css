@@ -501,9 +501,11 @@ select {
 
 /* ---- Section 8 ---- */
 .news {
-  padding: 50px;
+  padding: 40px 50px;
 }
 .news h1{
+  font-size: 48px;
+  font-weight: 700;
   text-align: center;
 }
 .newsimgholder {
@@ -512,7 +514,7 @@ select {
   justify-content: space-between;
 }
 .newsimg {
-  height: 100px;
+  height: 90px;
   width: 180px;
 }
 
