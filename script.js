@@ -126,14 +126,25 @@ videos.forEach(video => {
 
 // <--- ---- ---- Section 8 News Carousel ---- ---- --->
 const newsholder = document.querySelector(".newsimgholder");
+const newsContainer = document.querySelector(".newsimg-container");
 let newsposition = 0;
+let news = false;
 function moveNews(){
-	newsposition -= speed;
-	const reset = newsholder.scrollWidth / 2 - 10;
-	if (Math.abs(newsposition) >= reset){
-		newsposition = 0;
+	if(!news){
+		newsposition -= speed;
+		const reset = newsholder.scrollWidth / 2;
+		if (Math.abs(newsposition) >= reset){
+			newsposition = 0;
+		}
+		newsholder.style.transform = `translateX(${newsposition}px)`;
 	}
-	newsholder.style.transform = `translateX(${newsposition}px)`;
 	requestAnimationFrame(moveNews);
 }
 moveNews();
+
+newsContainer.addEventListener("mouseenter", () => {
+	news = true;
+});
+newsContainer.addEventListener("mouseleave", () => {
+	news = false;
+});

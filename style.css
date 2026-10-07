@@ -512,10 +512,7 @@ select {
   padding: 20px;
   display: flex;
   justify-content: space-between;
-}
-.newsimg {
-  height: 90px;
-  width: 180px;
+  gap: 20px;
 }
 
 /* ---- Section 9 ---- */
