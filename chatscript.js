@@ -51,7 +51,7 @@ async function chatText(){
               controller.close();
               return;
             }
-            receivedLength += value.length;
+            
             loadingRow.forEach((row) => {
               row.classList.remove("skeleton");
             });
@@ -59,6 +59,8 @@ async function chatText(){
               row.classList.remove("skeleton");
             });
             loadingRowDiv.style.height = '0px';
+            
+            receivedLength += value.length;
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
@@ -119,6 +121,7 @@ const sendToServer = () => {
 		const reader = response.body.getReader();
 		const decoder = new TextDecoder();
 		let receivedLength = 0;
+
     textQuestion.textContent = "";
     
 		return new ReadableStream({
@@ -130,7 +133,6 @@ const sendToServer = () => {
               return;
             }
             
-            receivedLength += value.length;
             loadingRow.forEach((row) => {
               row.classList.remove("skeleton");
             });
@@ -140,6 +142,8 @@ const sendToServer = () => {
             loadingRowDiv.style.height = '0px';
             getSolutionbutton.classList.remove("loading");
             buttonText.textContent = "Get Solution";
+            
+            receivedLength += value.length;
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
