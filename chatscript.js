@@ -1,17 +1,4 @@
 async function chatText(){
-  // console.log("Script running");
-  // const quedisplay = document.querySelector(".question-from-server");
-  // const ansdisplay = document.querySelector(".answer-from-server");
-  // const newbody = document.querySelector(".new");
-  
-  // const ques = sessionStorage.getItem("Question");
-  // quedisplay.textContent = ques;
-  // console.log(ques);
-  
-  // const ans = sessionStorage.getItem("Answer");
-  // ansdisplay.textContent = ans;
-  // console.log(ans);
-
   const question = sessionStorage.getItem('Question');
 
   const questionfromserver = document.querySelector('.question-from-server');
