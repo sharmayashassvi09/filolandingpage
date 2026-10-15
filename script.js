@@ -23,6 +23,17 @@ questionsContainer.addEventListener("mouseleave", () => {
 });
 moveQuestions();
 
+function populateTextbox(){
+	const quesSend = document.querySelector('.textarea');
+	const questions = document.querySelector('.questions');
+
+	questions.addEventListener("click", (ques) =>{
+		quesSend.textContent = ques.target.textContent;
+	})
+
+}
+populateTextbox()
+
 
 // <--- ---- ---- Comparison Image change ---- ---- --->
 
@@ -183,6 +194,8 @@ cardContainer.addEventListener("mouseenter", () => {
 cardContainer.addEventListener("mouseleave", () => {
 	movingcards = true;
 });
+
+
 
 
 
