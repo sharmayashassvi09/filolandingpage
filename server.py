@@ -1,8 +1,6 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
-import sseclient
 import requests
-from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
@@ -27,13 +25,12 @@ class handler(BaseHTTPRequestHandler):
     self.end_headers()
 
   def do_POST(self):
-    
     if self.path == "/chat":
       try:
         content_length = int(self.headers['Content-Length'])
         request_body = self.rfile.read(content_length)
   
-        user_ques_data = json.loads(request_body);
+        user_ques_data = json.loads(request_body)
         self.send_response(200)
         print("Data read - 200.")
         
@@ -42,6 +39,7 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
         print(user_ques_data)
 
+        # Sending request to LLM
         url = URL
         headers = {
           "Authorization": f"Bearer {API_KEY}",
@@ -104,13 +102,11 @@ class handler(BaseHTTPRequestHandler):
         #   json.dumps(result).encode("utf-8")
         # )
         
-
       except Exception as error:
         self.send_response(500)
 
         self.send_header("Content-Type", "application/json")
         self.send_header("Access-Control-Allow-Origin", "*")
-
         self.end_headers()
 
         self.wfile.write(

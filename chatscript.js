@@ -72,6 +72,7 @@ chatText()
 
 const sendToServer = () => {
 	const textQuestion = document.getElementById('questiondata');
+  sessionStorage.setItem("Question", textQuestion.textContent);
 
   const questionfromserver = document.querySelector('.question-from-server');
   questionfromserver.textContent = textQuestion.textContent;
