@@ -196,45 +196,7 @@ cardContainer.addEventListener("mouseleave", () => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // <--- ---- ---- Sending data to Python server ---- ---- --->
-
-// async function sendToServer(){
-// 	const textQuestion = document.getElementById("questiondata");
-// 	console.log(textQuestion.textContent);
-// 	const response = await fetch("http://127.0.0.1:8000/chat", {
-// 		method: "POST",
-// 		headers: {
-// 			"Content-Type": "application/json"
-// 		},
-// 		body: JSON.stringify({
-// 			"question": textQuestion.textContent
-// 		})
-// 	});
-// 	const data = await response.json();
-// 	console.log(data.text);
-// 	sessionStorage.setItem("Question", textQuestion.textContent);
-// 	sessionStorage.setItem("Answer", data.text);
-// 	window.location.href = "chat.html";
-// }
 
 const sendToServer = () => {
 	setTimeout(() => {
@@ -248,61 +210,6 @@ const sendToServer = () => {
 
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
-	
-	
-
-	// const res = fetch('http://127.0.0.1:8000/chat', {
-	// 		method: "POST",
-	// 		headers: {
-	// 			"Content-Type": "application/json"
-	// 		},
-	// 		body: JSON.stringify({
-	// 			"question": textQuestion.textContent
-	// 		})											
-	// 	})
-	// 	.then(response => {
-	// 		const reader = response
-	// 				.body
-	// 				.getReader();
-	// 		const decoder = new TextDecoder();
-	// 		let receivedLength = 0;
-	// 		let answer = "";
-
-	// 		return new ReadableStream({
-	// 			start(controller) {
-	// 				function push() {
-						
-	// 					reader
-	// 						.read()
-	// 						.then(({ done, value }) => {
-	// 							if (done) {
-	// 									controller.close();
-	// 									return;
-	// 							}
-	// 							receivedLength += value.length;
-	// 							const chunk = decoder.decode(value, { stream: true });
-	// 							console.log(chunk);
-	// 							answer += chunk;
-	// 							// console.log(answer);
-	// 							sessionStorage.setItem("Question", textQuestion.textContent);
-	// 							sessionStorage.setItem("Answer", answer);
-	// 							controller.enqueue(value);
-	// 							push();
-	// 						});
-	// 					}
-	// 					push();
-						
-	// 				}
-	// 			});
-	// 		})
-	// 	.then(stream => new Response(stream))
-	// 	.then(response => response.text())
-	// 	.then(data => {
-	// 	console.log("Streaming complete");
-	// })
-	// .catch(error => {
-	// 	console.error('Streaming error:', error);
-	// });
 };
 
 
