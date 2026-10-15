@@ -34,9 +34,9 @@ class handler(BaseHTTPRequestHandler):
         request_body = self.rfile.read(content_length)
   
         user_ques_data = json.loads(request_body);
-  
         self.send_response(200)
-        print("do_POST is OK.")
+        print("Data read - 200.")
+        
         self.send_header('Content-type', 'text/plain; charset=utf-8')
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
@@ -95,15 +95,13 @@ class handler(BaseHTTPRequestHandler):
 
         self.send_response(200)
         print("Got the Answer.")
-        # with open("chat.html", "w") as file:
-        #   file.write(f"<!DOCTYPE html><html><head><title>My Chat</title></head><body><h1>Answer to your Question is: </h1><h2>{data['question']}</h2><p>{answer}</p></body></html>");
 
-        self.send_response(200)
+        # result = {
+        #   "question": user_ques_data['question'],
+        #   "text": answer
+        # }
         # self.wfile.write(
-        #   json.dumps({
-        #       "question": user_ques_data['question'],
-        #       "text": answer
-        #   }).encode()
+        #   json.dumps(result).encode("utf-8")
         # )
         
 

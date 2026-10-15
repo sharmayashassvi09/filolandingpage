@@ -224,6 +224,9 @@ cardContainer.addEventListener("mouseleave", () => {
 // }
 
 const sendToServer = () => {
+	setTimeout(() => {
+		window.location.href = "chat.html";
+	}, 2000);
 	const textQuestion = document.getElementById('questiondata');
 	sessionStorage.setItem("Question", textQuestion.textContent);
 
@@ -233,9 +236,7 @@ const sendToServer = () => {
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
 	
-	setTimeout(() => {
-		window.location.href = "chat.html";
-	}, 2000);
+	
 
 	// const res = fetch('http://127.0.0.1:8000/chat', {
 	// 		method: "POST",

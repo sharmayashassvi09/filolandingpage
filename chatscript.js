@@ -19,6 +19,16 @@ async function chatText(){
   const answerText = document.querySelector('.answer-from-server');
   answerText.textContent = "";
 
+  const loadingRowDiv = document.getElementById('card-title');
+  const loadingRow = document.querySelectorAll('.skeleton-text');
+  loadingRow.forEach((row) => {
+    row.classList.add("skeleton");
+  });
+  const loadingRowHalf = document.querySelectorAll('.skeleton-text-half');
+  loadingRowHalf.forEach((row) => {
+    row.classList.add("skeleton");
+  });
+
   const res = fetch('http://127.0.0.1:8000/chat', {
     method: "POST",
     headers: {
@@ -32,6 +42,7 @@ async function chatText(){
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let receivedLength = 0;
+    
     return new ReadableStream({
       start(controller) {
         function push() {
@@ -41,6 +52,13 @@ async function chatText(){
               return;
             }
             receivedLength += value.length;
+            loadingRow.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowHalf.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowDiv.style.height = '0px';
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
@@ -71,6 +89,17 @@ const sendToServer = () => {
   const answerText = document.querySelector('.answer-from-server');
   answerText.textContent = "";
 
+  const loadingRowDiv = document.getElementById('card-title');
+  loadingRowDiv.style.height = '100%';
+  const loadingRow = document.querySelectorAll('.skeleton-text');
+  loadingRow.forEach((row) => {
+    row.classList.add("skeleton");
+  });
+  const loadingRowHalf = document.querySelectorAll('.skeleton-text-half');
+  loadingRowHalf.forEach((row) => {
+    row.classList.add("skeleton");
+  });
+
   const getSolutionbutton = document.querySelector('.getsol');
 	const buttonText = document.querySelector("#buttonText");
 
@@ -97,12 +126,20 @@ const sendToServer = () => {
 				function push() {
 					reader.read().then(({ done, value }) => {
             if (done) {
-                controller.close();
-                return;
+              controller.close();
+              return;
             }
+            
+            receivedLength += value.length;
+            loadingRow.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowHalf.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowDiv.style.height = '0px';
             getSolutionbutton.classList.remove("loading");
             buttonText.textContent = "Get Solution";
-            receivedLength += value.length;
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
