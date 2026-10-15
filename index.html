@@ -4,7 +4,7 @@
     <title>Filo: The World's Best Study Help</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="loading.css"/>
   </head>
 
   <body>
@@ -12,15 +12,17 @@
     <!-- ---- ---- Section 1 ---- ---- -->
     <div class="container">
       <div class="navbar">
-        <a><img src="logo.svg" class="logoImg"></a>
-        <a>
-          <div class="logotext">
-            World's only 
-            <span class="text">instant<br>tutoring</span> 
-            <!--  -->
-            platform
-          </div>
-        </a>
+        <div class="logoside">
+          <a><img src="logo.svg" class="logoImg"></a>
+          <a>
+            <div class="logotext">
+              World's only 
+              <span class="text">instant<br>tutoring</span> 
+              <!--  -->
+              platform
+            </div>
+          </a>
+        </div>
         <div class="linksheader">
           <a class="links">Instant Tutoring</a>
           <a class="links">Private Courses</a>
@@ -46,51 +48,52 @@
 
     <!-- ---- ---- Section 2 ---- ---- -->
     <div class="section">
-      <h1 class="section2-text">
-        <span class="heading">The World's Most Advanced</span><br>
-        <span class="subheading">Exam & Assignment Help</span>
-      </h1>
-      <h3 class="section2-text2">Join 5 Million+ Students from 60+ Countries</h3>
-      <div class="textbox">
-        <div class="questions-container">
-          <div class="questions">
-            <div class="eachquestion">What is global warming?</div>
-            <div class="eachquestion">Who painted Mona Lisa?</div>
-            <div class="eachquestion">Atomic number of Carbon?</div>
-            <div class="eachquestion">What causes earthquakes?</div>
-            <div class="eachquestion">Explain 'Continental drift'.</div>
-            <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
-            <div class="eachquestion">What is global warming?</div>
-            <div class="eachquestion">Who painted Mona Lisa?</div>
-            <div class="eachquestion">Atomic number of Carbon?</div>
-            <div class="eachquestion">What causes earthquakes?</div>
-            <div class="eachquestion">Explain 'Continental drift'.</div>
-            <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
+      <div class="section-container">
+        <h1 class="section2-text">
+          <span class="heading">The World's Most Advanced</span><br>
+          <span class="subheading">Exam & Assignment Help</span>
+        </h1>
+        <h3 class="section2-text2">Join 5 Million+ Students from 60+ Countries</h3>
+        <div class="textbox">
+          <div class="questions-container">
+            <div class="questions">
+              <div class="eachquestion">What is global warming?</div>
+              <div class="eachquestion">Who painted Mona Lisa?</div>
+              <div class="eachquestion">Atomic number of Carbon?</div>
+              <div class="eachquestion">What causes earthquakes?</div>
+              <div class="eachquestion">Explain 'Continental drift'.</div>
+              <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
+              <div class="eachquestion">What is global warming?</div>
+              <div class="eachquestion">Who painted Mona Lisa?</div>
+              <div class="eachquestion">Atomic number of Carbon?</div>
+              <div class="eachquestion">What causes earthquakes?</div>
+              <div class="eachquestion">Explain 'Continental drift'.</div>
+              <div class="eachquestion">What is the SI unit of mass? How is it defined?</div>
+            </div>
+          </div>
+          <div>
+            <div class="textarea" id="questiondata" role="textbox" contenteditable="true" aria-placeholder="Type your question here"></div>
+          </div>
+          <div class="bottomarea">
+            <div class="addimg">
+              <div>Add a image</div>
+              <div>Add a document</div>
+            </div>
+            <div class="getsol" onclick="sendToServer()">
+              <a id="buttonText">Get Solution</a>
+              <div class="loader" id="loader"></div>
+            </div>
           </div>
         </div>
-        <div>
-          <div class="textarea">
-            Type your question here
+        <div class="belowtext">
+          <div class="belowtext-bottom">
+            <img src="google-icon.svg" height="20px" width="20px">
+            <div style="font-size: 18px; font-weight: 600;">Google User Choice Award 🏆</div>
           </div>
-        </div>
-        <div class="bottomarea">
-          <div class="addimg">
-            <div>Add a image</div>
-            <div>Add a document</div>
+          <div class="belowtext-bottom">
+            <div style="padding: 5px; font-size: 12px; font-weight: 500;">Powered by Advanced AI</div>
+            <img src="super-ai.svg">
           </div>
-          <div class="getsol">
-            Get Solution
-          </div>
-        </div>
-      </div>
-      <div class="belowtext">
-        <div class="belowtext-bottom">
-          <img src="google-icon.svg" height="20px" width="20px">
-          <div style="font-size: 18px; font-weight: 600;">Google User Choice Award 🏆</div>
-        </div>
-        <div class="belowtext-bottom">
-          <div style="padding: 5px; font-size: 12px; font-weight: 500;">Powered by Advanced AI</div>
-          <img src="super-ai.svg">
         </div>
       </div>
     </div>

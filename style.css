@@ -32,17 +32,22 @@ select {
 .navbar {
   font-family: "Satoshi", sans-serif;
   align-items: center;
-  width: 100%;
   display: flex;
+  justify-content: space-between;
   margin: 0;
-  padding: 2px 60px;
+  padding: 12px 60px;
   font-weight: 400;
   color: #232323;
   box-shadow: -8px 6px 18px 0 hsla(0, 0%, 40%, .09);
 }
+.logoside{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .logoImg {
   margin: 0;
-  height: 67px;
   width: 85px;
 }
 .logotext {
@@ -59,12 +64,13 @@ select {
   font-weight: 600;
 }
 .linksheader{
+  margin: auto 0 auto auto;
   font-size: 16px;
-  font-weight: 400;
+  line-height: 24px;
+  font-weight: 300;
   display: flex;
   text-align: center;
   gap: 5px;
-  padding-left: 228px; 
 }
 .links {
   padding: 8px;
@@ -99,17 +105,24 @@ select {
 
 /* ---- Section 2 ---- */
 .section {  
-  margin-top: 75px;  
+  margin-top: 70px;  
   background-image: url(heroimage.jpg);
-  width: 100%;
-  height: 100%;
+
   background-size: cover;
   font-family: "Satoshi", sans-serif;
   font-weight: 200;
+  padding: 20px 10px;
+  padding-bottom: 10px;
+}
+.section-container{
+  padding: 0 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .section2-text {
   margin: 30px 50px;
-  padding-top: 70px;
+  padding-top: 30px;
   text-align: center;
   color: #fff;
   font-size: 55px;
@@ -126,17 +139,20 @@ select {
   font-weight: 500;
 }
 .textbox {
-  margin: 0px 185px;
+  margin: auto;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   background-color: #fff;
   align-items: center;
   border:2px solid #1265ec;
   border-radius: 16px;
-  height: 260px;
   width: 890px;
+  overflow: hidden;
 }
 .questions-container{
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .questions {
   display: flex;
@@ -157,22 +173,26 @@ select {
   border: 1px solid #1265ec;
 }
 .textarea {
-  margin: 10px 10px;
-  height: 150px;
-  width: 820px;
+  height: 120px;
+  width: 900px;
   border-radius: 20px;
-  color: grey;
+  color: #232323;
   font-size: 25px;
   font-weight: 500;
-  border: none;
+  outline: none;
 }
+.textarea:empty::before{
+  content: attr(aria-placeholder);
+  color: grey;
+}
+
 .belowtext {
-  padding: 10px 0;
+
+  padding: 10px 70px;
   color: #fff;
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin: 0px 185px;
 }
 .belowtext-bottom{
   display: flex;
@@ -185,6 +205,7 @@ select {
 }
 .bottomarea {
   display: flex; 
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   margin: 5px 10px;
@@ -200,6 +221,40 @@ select {
   width: 120px;
   font-size: 14px;
   font-weight: 500;
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.getsol:hover{
+  cursor: pointer;
+}
+.getsol a {
+  text-decoration: none;
+  color: #fff;
+}
+.loader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+.getsol.loading .loader {
+  display: block;
+}
+.getsol.loading {
+  opacity: 0.85;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 .addimg {
   display: flex;

@@ -1,0 +1,125 @@
+async function chatText(){
+  // console.log("Script running");
+  // const quedisplay = document.querySelector(".question-from-server");
+  // const ansdisplay = document.querySelector(".answer-from-server");
+  // const newbody = document.querySelector(".new");
+  
+  // const ques = sessionStorage.getItem("Question");
+  // quedisplay.textContent = ques;
+  // console.log(ques);
+  
+  // const ans = sessionStorage.getItem("Answer");
+  // ansdisplay.textContent = ans;
+  // console.log(ans);
+
+  const question = sessionStorage.getItem('Question');
+
+  const questionfromserver = document.querySelector('.question-from-server');
+  questionfromserver.textContent = question;
+  const answerText = document.querySelector('.answer-from-server');
+  answerText.textContent = "";
+
+  const res = fetch('http://127.0.0.1:8000/chat', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "question": question
+    })											
+  })
+  .then(response => {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let receivedLength = 0;
+    return new ReadableStream({
+      start(controller) {
+        function push() {
+          reader.read().then(({ done, value }) => {
+            if (done) {
+              controller.close();
+              return;
+            }
+            receivedLength += value.length;
+            const chunk = decoder.decode(value, { stream: true });
+            console.log(chunk);
+            answerText.textContent += chunk;
+            controller.enqueue(value);
+            push();
+          });
+        }
+				push();
+			}
+		});
+	})
+  .then(stream => new Response(stream))
+	.then(response => response.text())
+	.then(data => {
+		console.log("Streaming complete");
+	})
+	.catch(error => {
+		console.error('Streaming error:', error);
+	});
+}
+chatText()
+
+const sendToServer = () => {
+	const textQuestion = document.getElementById('questiondata');
+
+  const questionfromserver = document.querySelector('.question-from-server');
+  questionfromserver.textContent = textQuestion.textContent;
+  const answerText = document.querySelector('.answer-from-server');
+  answerText.textContent = "";
+
+  const getSolutionbutton = document.querySelector('.getsol');
+	const buttonText = document.querySelector("#buttonText");
+
+  getSolutionbutton.classList.add("loading");
+  buttonText.textContent = "Generating...";
+
+	const res = fetch('http://127.0.0.1:8000/chat', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "question": textQuestion.textContent
+    })											
+  })
+	.then(response => {
+		const reader = response.body.getReader();
+		const decoder = new TextDecoder();
+		let receivedLength = 0;
+    textQuestion.textContent = "";
+    
+		return new ReadableStream({
+			start(controller) {
+				function push() {
+					reader.read().then(({ done, value }) => {
+            if (done) {
+                controller.close();
+                return;
+            }
+            getSolutionbutton.classList.remove("loading");
+            buttonText.textContent = "Get Solution";
+            receivedLength += value.length;
+            const chunk = decoder.decode(value, { stream: true });
+            console.log(chunk);
+            answerText.textContent += chunk;
+            controller.enqueue(value);
+            push();
+          });
+        }
+			  push();			
+		  }
+	  });
+	})
+  .then(stream => new Response(stream))
+  .then(response => response.text())
+  .then(data => {
+  console.log("Streaming complete");
+	})
+	.catch(error => {
+		console.error('Streaming error:', error);
+	});
+};

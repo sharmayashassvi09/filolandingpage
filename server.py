@@ -1,0 +1,130 @@
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import json
+import sseclient
+import requests
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+URL = os.getenv("URL")
+API_KEY = os.getenv("API_KEY")
+
+HOST = "127.0.0.1"
+PORT = 8000
+
+class handler(BaseHTTPRequestHandler):
+
+  def do_GET(self):
+    pass
+    
+  def do_OPTIONS(self):
+    self.send_response(204)
+    print("do_OPTIONS is OK.")
+    self.send_header("Access-Control-Allow-Origin", "*")
+    self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+    self.send_header("Access-Control-Allow-Headers", "Content-Type")
+    self.end_headers()
+
+  def do_POST(self):
+    
+    if self.path == "/chat":
+      try:
+        content_length = int(self.headers['Content-Length'])
+        request_body = self.rfile.read(content_length)
+  
+        user_ques_data = json.loads(request_body);
+  
+        self.send_response(200)
+        print("do_POST is OK.")
+        self.send_header('Content-type', 'text/plain; charset=utf-8')
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        print(user_ques_data)
+
+        url = URL
+        headers = {
+          "Authorization": f"Bearer {API_KEY}",
+          "Content-Type": "application/json"
+        }
+
+        payload = {
+          "model": "openai/gpt-4o",
+          "messages": [{
+            "role": "user",
+            "content": user_ques_data['question']
+          }],
+          "stream": True
+        }
+
+        buffer = ""
+        with requests.post(url, headers=headers, json=payload, stream=True) as r:
+          for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+            buffer += chunk
+            while True:
+              try:
+                # Find the next complete SSE line
+                line_end = buffer.find('\n')
+                if line_end == -1:
+                  break
+
+                line = buffer[:line_end].strip()
+                buffer = buffer[line_end + 1:]
+
+                # Skip SSE comments (lines starting with ":"), e.g. the
+                # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
+                if line.startswith(':'):
+                  continue
+
+                if line.startswith('data: '):
+                  data = line[6:]
+                  if data == '[DONE]':
+                    break
+
+                  try:
+                    data_obj = json.loads(data)
+                    content = data_obj["choices"][0]["delta"].get("content")
+                    if content:
+                      print(content, end="", flush=True)
+                      self.wfile.write(content.encode("utf-8"))
+                      
+                  except json.JSONDecodeError:
+                    pass
+              except Exception:
+                break
+
+        self.send_response(200)
+        print("Got the Answer.")
+        # with open("chat.html", "w") as file:
+        #   file.write(f"<!DOCTYPE html><html><head><title>My Chat</title></head><body><h1>Answer to your Question is: </h1><h2>{data['question']}</h2><p>{answer}</p></body></html>");
+
+        self.send_response(200)
+        # self.wfile.write(
+        #   json.dumps({
+        #       "question": user_ques_data['question'],
+        #       "text": answer
+        #   }).encode()
+        # )
+        
+
+      except Exception as error:
+        self.send_response(500)
+
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+
+        self.end_headers()
+
+        self.wfile.write(
+          json.dumps({
+              "error": str(error)
+          }).encode()
+        )
+
+
+server = HTTPServer((HOST, PORT), handler)
+print(f"Listening on PORT: {PORT}")
+
+server.serve_forever()
+server.server_close()
+print("Server stopped!")

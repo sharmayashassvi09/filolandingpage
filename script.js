@@ -23,7 +23,9 @@ questionsContainer.addEventListener("mouseleave", () => {
 });
 moveQuestions();
 
+
 // <--- ---- ---- Comparison Image change ---- ---- --->
+
 const filoimage = document.querySelector(".filoimage");
 const chatgptimg = document.querySelector(".chatgptimage");
 const changequestion = document.querySelector(".changingques");
@@ -109,7 +111,9 @@ function currentlyActive(){
 }
 currentlyActive();
 
+
 // <--- ---- ---- Section 4 Video Play ---- ---- --->
+
 const videos = document.querySelectorAll(".videoseach");
 videos.forEach(video => {
 	video.addEventListener("mouseenter", () => {
@@ -124,7 +128,9 @@ videos.forEach(video => {
 	});
 });
 
+
 // <--- ---- ---- News Carousel ---- ---- --->
+
 const newsholder = document.querySelector(".newsimgholder");
 const newsContainer = document.querySelector(".newsimg-container");
 let newsposition = 0;
@@ -149,7 +155,9 @@ newsContainer.addEventListener("mouseleave", () => {
 	movenews = true;
 });
 
+
 // <--- ---- ---- Cards Carousel ---- ---- --->
+
 const cards = document.querySelector(".cards");
 const cardContainer = document.querySelector(".cards-container");
 
@@ -175,3 +183,112 @@ cardContainer.addEventListener("mouseenter", () => {
 cardContainer.addEventListener("mouseleave", () => {
 	movingcards = true;
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// <--- ---- ---- Sending data to Python server ---- ---- --->
+
+// async function sendToServer(){
+// 	const textQuestion = document.getElementById("questiondata");
+// 	console.log(textQuestion.textContent);
+// 	const response = await fetch("http://127.0.0.1:8000/chat", {
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json"
+// 		},
+// 		body: JSON.stringify({
+// 			"question": textQuestion.textContent
+// 		})
+// 	});
+// 	const data = await response.json();
+// 	console.log(data.text);
+// 	sessionStorage.setItem("Question", textQuestion.textContent);
+// 	sessionStorage.setItem("Answer", data.text);
+// 	window.location.href = "chat.html";
+// }
+
+const sendToServer = () => {
+	const textQuestion = document.getElementById('questiondata');
+	sessionStorage.setItem("Question", textQuestion.textContent);
+
+	const getSolutionbutton = document.querySelector('.getsol');
+	const buttonText = document.querySelector("#buttonText");
+
+  getSolutionbutton.classList.add("loading");
+  buttonText.textContent = "Generating...";
+	
+	setTimeout(() => {
+		window.location.href = "chat.html";
+	}, 2000);
+
+	// const res = fetch('http://127.0.0.1:8000/chat', {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json"
+	// 		},
+	// 		body: JSON.stringify({
+	// 			"question": textQuestion.textContent
+	// 		})											
+	// 	})
+	// 	.then(response => {
+	// 		const reader = response
+	// 				.body
+	// 				.getReader();
+	// 		const decoder = new TextDecoder();
+	// 		let receivedLength = 0;
+	// 		let answer = "";
+
+	// 		return new ReadableStream({
+	// 			start(controller) {
+	// 				function push() {
+						
+	// 					reader
+	// 						.read()
+	// 						.then(({ done, value }) => {
+	// 							if (done) {
+	// 									controller.close();
+	// 									return;
+	// 							}
+	// 							receivedLength += value.length;
+	// 							const chunk = decoder.decode(value, { stream: true });
+	// 							console.log(chunk);
+	// 							answer += chunk;
+	// 							// console.log(answer);
+	// 							sessionStorage.setItem("Question", textQuestion.textContent);
+	// 							sessionStorage.setItem("Answer", answer);
+	// 							controller.enqueue(value);
+	// 							push();
+	// 						});
+	// 					}
+	// 					push();
+						
+	// 				}
+	// 			});
+	// 		})
+	// 	.then(stream => new Response(stream))
+	// 	.then(response => response.text())
+	// 	.then(data => {
+	// 	console.log("Streaming complete");
+	// })
+	// .catch(error => {
+	// 	console.error('Streaming error:', error);
+	// });
+};
+
+
