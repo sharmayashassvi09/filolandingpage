@@ -47,8 +47,8 @@ chem.addEventListener("click", () => {
 	scroll.forEach(img => {
 		img.scrollTop = 0;
 	});
-	filoimage.src = "chem-filo.png";
-	chatgptimg.src = "chem-gpt.png";
+	filoimage.src = "./src/images/chem-filo.png";
+	chatgptimg.src = "./src/images/chem-gpt.png";
 	chem.id = "subactive";
 	math.id = "";
 	phys.id = "";
@@ -62,8 +62,8 @@ math.addEventListener("click", () => {
 	scroll.forEach(img => {
 		img.scrollTop = 0;
 	});
-	filoimage.src = "math-filo.png";
-	chatgptimg.src = "math-gpt.png";
+	filoimage.src = "./src/images/math-filo.png";
+	chatgptimg.src = "./src/images/math-gpt.png";
 	chem.id = "";
 	math.id = "subactive";
 	phys.id = "";
@@ -77,8 +77,8 @@ phys.addEventListener("click", () => {
 	scroll.forEach(img => {
 		img.scrollTop = 0;
 	});
-	filoimage.src = "physics-filo.png";
-	chatgptimg.src = "physics-gpt.png";
+	filoimage.src = "./src/images/physics-filo.png";
+	chatgptimg.src = "./src/images/physics-gpt.png";
 	chem.id = "";
 	math.id = "";
 	phys.id = "subactive";
@@ -92,8 +92,8 @@ bio.addEventListener("click", () => {
 	scroll.forEach(img => {
 		img.scrollTop = 0;
 	});
-	filoimage.src = "bio-filo.png";
-	chatgptimg.src = "bio-gpt.png";
+	filoimage.src = "./src/images/bio-filo.png";
+	chatgptimg.src = "./src/images/bio-gpt.png";
 	chem.id = "";
 	math.id = "";
 	phys.id = "";
@@ -107,8 +107,8 @@ geo.addEventListener("click", () => {
 	scroll.forEach(img => {
 		img.scrollTop = 0;
 	});
-	filoimage.src = "geo-filo.png";
-	chatgptimg.src = "geo-gpt.png";
+	filoimage.src = "./src/images/geo-filo.png";
+	chatgptimg.src = "./src/images/geo-gpt.png";
 	chem.id = "";
 	math.id = "";
 	phys.id = "";
@@ -200,7 +200,7 @@ cardContainer.addEventListener("mouseleave", () => {
 
 const sendToServer = () => {
 	setTimeout(() => {
-		window.location.href = "chat.html";
+		window.location.href = "./src/pages/chat.html";
 	}, 2000);
 	const textQuestion = document.getElementById('questiondata');
 	sessionStorage.setItem("Question", textQuestion.textContent);

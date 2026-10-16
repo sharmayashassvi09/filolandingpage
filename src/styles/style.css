@@ -106,7 +106,7 @@ select {
 /* ---- Section 2 ---- */
 .section {  
   margin-top: 70px;  
-  background-image: url(heroimage.jpg);
+  background-image: url(../images/heroimage.jpg);
 
   background-size: cover;
   font-family: "Satoshi", sans-serif;
