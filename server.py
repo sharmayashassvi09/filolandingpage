@@ -14,7 +14,33 @@ PORT = 8000
 class handler(BaseHTTPRequestHandler):
 
   def do_GET(self):
-    pass
+    if self.path == "/solutions":
+      self.send_response(200)
+      self.send_header('Content-type', 'application/json')
+      self.send_header("Access-Control-Allow-Origin", "*")
+      self.end_headers()
+      print("inside do_GET")
+      
+      try:
+        with open("./src/data/chats.json") as file:
+          data = json.load(file)
+          print(data)
+
+        self.wfile.write(
+          json.dumps(data['Questions']).encode()
+        )
+      except Exception as error:
+        self.send_response(500)
+        
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+        self.wfile.write(
+          json.dumps({
+              "error": str(error)
+          }).encode()
+        )
     
   def do_OPTIONS(self):
     self.send_response(204)
@@ -37,59 +63,70 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/plain; charset=utf-8')
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
+
+        self.send_response(200)
+        with open("./src/data/chats.json") as file:
+          data = json.load(file)
+          
+        data['Questions'].append(user_ques_data['question'])
+        
+        # print(data)
+        with open("./src/data/chats.json", "w") as file:
+          json.dump(data, file)
+
         print(user_ques_data)
 
         # Sending request to LLM
-        url = URL
-        headers = {
-          "Authorization": f"Bearer {API_KEY}",
-          "Content-Type": "application/json"
-        }
+        # url = URL
+        # headers = {
+        #   "Authorization": f"Bearer {API_KEY}",
+        #   "Content-Type": "application/json"
+        # }
 
-        payload = {
-          "model": "openai/gpt-4o",
-          "messages": [{
-            "role": "user",
-            "content": user_ques_data['question']
-          }],
-          "stream": True
-        }
+        # payload = {
+        #   "model": "openai/gpt-4o",
+        #   "messages": [{
+        #     "role": "user",
+        #     "content": user_ques_data['question']
+        #   }],
+        #   "stream": True
+        # }
 
-        buffer = ""
-        with requests.post(url, headers=headers, json=payload, stream=True) as r:
-          for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
-            buffer += chunk
-            while True:
-              try:
-                # Find the next complete SSE line
-                line_end = buffer.find('\n')
-                if line_end == -1:
-                  break
+        # buffer = ""
+        # with requests.post(url, headers=headers, json=payload, stream=True) as r:
+        #   for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+        #     buffer += chunk
+        #     while True:
+        #       try:
+        #         # Find the next complete SSE line
+        #         line_end = buffer.find('\n')
+        #         if line_end == -1:
+        #           break
 
-                line = buffer[:line_end].strip()
-                buffer = buffer[line_end + 1:]
+        #         line = buffer[:line_end].strip()
+        #         buffer = buffer[line_end + 1:]
 
-                # Skip SSE comments (lines starting with ":"), e.g. the
-                # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
-                if line.startswith(':'):
-                  continue
+        #         # Skip SSE comments (lines starting with ":"), e.g. the
+        #         # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
+        #         if line.startswith(':'):
+        #           continue
 
-                if line.startswith('data: '):
-                  data = line[6:]
-                  if data == '[DONE]':
-                    break
+        #         if line.startswith('data: '):
+        #           data = line[6:]
+        #           if data == '[DONE]':
+        #             break
 
-                  try:
-                    data_obj = json.loads(data)
-                    content = data_obj["choices"][0]["delta"].get("content")
-                    if content:
-                      print(content, end="", flush=True)
-                      self.wfile.write(content.encode("utf-8"))
+        #           try:
+        #             data_obj = json.loads(data)
+        #             content = data_obj["choices"][0]["delta"].get("content")
+        #             if content:
+        #               print(content, end="", flush=True)
+        #               self.wfile.write(content.encode("utf-8"))
                       
-                  except json.JSONDecodeError:
-                    pass
-              except Exception:
-                break
+        #           except json.JSONDecodeError:
+        #             pass
+        #       except Exception:
+        #         break
 
         self.send_response(200)
         print("Got the Answer.")

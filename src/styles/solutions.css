@@ -1,0 +1,127 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@100,200,300,400,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  font-family: "Roboto", sans-serif;
+  color: #232323;
+}
+
+/* ---- Section 1 ---- */
+.container {
+  background: #fff;
+  margin: 0 auto;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.navbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 10px 35px;
+  font-weight: 500;
+  box-shadow: -8px 6px 18px 0 hsla(0, 0%, 40%, .09);
+}
+.logoside{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.logoImg {
+  margin: 0;
+  width: 60px;
+}
+.linksheader{
+  margin: auto 0 auto auto;
+  padding: 0 30px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  display: flex;
+  text-align: center;
+  gap: 5px;
+}
+.links {
+  padding: 8px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.links:hover{
+  color: #0058cc;
+  cursor: pointer;
+}
+.premium-text{
+  background: #ff8e00;
+  padding: 2px 6px;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: 500;
+  height: fit-content;
+  margin-left: 4px;
+}
+.chat-navbar-dropdown {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 10px;
+}
+
+/* ---- Section 2 ---- */
+.recent-questions {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 90%;
+    max-width: 700px;
+    margin: 120px auto 0;
+}
+.rq-heading {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 21px;
+}
+.questions-container {
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 48px;
+    box-shadow: 0 0 4px #00000014;
+}
+.separater {
+    border: 1px solid #f0f0f0;
+    display: block;
+    width: 100%;
+}
+.question {
+  padding: 16px 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 16px;
+  color: #232323;
+}
+.question:hover{
+  background-color: #f0f5fd;
+}
+.top-of-questions{
+ font-size:14px; 
+ display: flex; 
+ justify-content: space-between; 
+ align-items: center;
+ width: 100%; 
+ color: #8a8a8a;
+}
