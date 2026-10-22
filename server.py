@@ -61,13 +61,13 @@ class handler(BaseHTTPRequestHandler):
         request_body = self.rfile.read(content_length)
   
         user_ques_data = json.loads(request_body)
-        self.send_response(200)
+        # self.send_response(200)
         print("Data read - 200.")
         
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
-        self.send_header("Access-Control-Allow-Origin", "*")
+        # self.send_header('Content-type', 'text/plain; charset=utf-8')
+        # self.send_header("Access-Control-Allow-Origin", "*")
 
-        self.send_response(200)
+        # self.send_response(200)
         with open("./src/data/chats.json") as file:
           data = json.load(file)
 
@@ -86,15 +86,19 @@ class handler(BaseHTTPRequestHandler):
         # Getting Image from SERPAPI 
         generate_img = self.img_generation(user_ques_data['question'])
         print(generate_img)
-        if True:
+        image_urls = []
+        if generate_img == "True":
           print("Image should be generated")
           image_urls = self.get_image_url(user_ques_data['question'])
-          print(image_urls)
-          
-          self.send_header('img_url', image_urls)
-          # self.send_header('Access-Control-Expose-Headers', 'img_url')
-          # self.send_header('Access-Control-Allow-Origin', '*')
-          self.end_headers()
+          print(image_urls)          
+        else:
+          print("Image not needed")
+
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain; charset=utf-8')
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header('img_url', image_urls)
+        self.end_headers()
 
         # Sending request to LLM
         url = URL
