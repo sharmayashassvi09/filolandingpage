@@ -28,6 +28,8 @@ async function chatText(){
   .then(response => {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    const head = response.headers.get('img_url');
+    console.log(head);
     let receivedLength = 0;
     
     return new ReadableStream({
