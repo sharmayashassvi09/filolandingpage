@@ -1,8 +1,8 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
+import os
 import requests
 from dotenv import load_dotenv
-import os
 import serpapi
 
 
@@ -17,41 +17,8 @@ PORT = 8000
 
 class handler(BaseHTTPRequestHandler):
 
-  def do_POST(self):
-    if self.path == "/":
-      try:
-        content_length = int(self.headers['Content-Length'])
-        request_body = self.rfile.read(content_length)
-  
-        user_ques_data = json.loads(request_body)
-        self.send_response(200)
-        print("Data read - 200.")
-        
-        with open("./src/data/chats.json") as file:
-          data = json.load(file)
-
-        data['Questions'].append(user_ques_data['question'])
-        
-        print(data)
-        with open("./src/data/chats.json", "w") as file:
-          json.dump(data, file)
-      
-      except Exception as error:
-        self.send_response(500)
-
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-
-        self.wfile.write(
-          json.dumps({
-              "error": str(error)
-          }).encode()
-        )
-
-
   def do_GET(self):
-    if self.path == "/chat/":
+    if self.path == "/chat":
       print("Path:", self.path)
       try:
         with open("./src/data/chats.json") as file:
@@ -79,8 +46,7 @@ class handler(BaseHTTPRequestHandler):
           }).encode()
         )
 
-
-  def do_GET(self):
+    # ------------------------------ x ---- x ------------------------------
     if self.path == "/solutions":
       self.send_response(200)
       self.send_header('Content-type', 'application/json')
@@ -111,13 +77,57 @@ class handler(BaseHTTPRequestHandler):
     
   def do_OPTIONS(self):
     self.send_response(204)
-    self.send_header("Allow", "GET, POST, OPTIONS")
     self.send_header("Access-Control-Allow-Origin", "*")
     self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
     self.send_header("Access-Control-Allow-Headers", "Content-Type")
     self.end_headers()
 
   def do_POST(self):
+    if self.path == "/":
+      try:
+        content_length = int(self.headers['Content-Length'])
+        request_body = self.rfile.read(content_length)
+
+        user_ques_data = json.loads(request_body)
+
+        print("Data read - 200.")
+
+        with open("./src/data/chats.json") as file:
+          data = json.load(file)
+
+        if user_ques_data['question'] not in data['Questions']:
+          data['Questions'].append(user_ques_data['question'])
+        
+        print(data)
+        with open("./src/data/chats.json", "w") as file:
+          json.dump(data, file)
+
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers() 
+        
+        result = {
+          "question": user_ques_data['question'],
+        }
+        self.wfile.write(
+          json.dumps(result).encode("utf-8")
+        )
+
+        print(user_ques_data)  
+
+      except Exception as error:
+        self.send_response(500)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        self.wfile.write(
+          json.dumps({
+              "error": str(error)
+          }).encode()
+        )
+
+    # ------------------------------ x ---- x ------------------------------
     if self.path == "/chat":
       try:
         content_length = int(self.headers['Content-Length'])
@@ -126,6 +136,8 @@ class handler(BaseHTTPRequestHandler):
         user_ques_data = json.loads(request_body)
         # self.send_response(200)
         print("Data read - 200.")
+        print(user_ques_data)
+
         
         # self.send_header('Content-type', 'text/plain; charset=utf-8')
         # self.send_header("Access-Control-Allow-Origin", "*")
@@ -140,8 +152,6 @@ class handler(BaseHTTPRequestHandler):
         # print(data)
         with open("./src/data/chats.json", "w") as file:
           json.dump(data, file)
-
-        print(user_ques_data)
 
         # image_urls = self.get_image_url()
         # print(image_urls)
@@ -164,60 +174,60 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
         # Sending request to LLM
-        # url = URL
-        # headers = {
-        #   "Authorization": f"Bearer {API_KEY}",
-        #   "Content-Type": "application/json"
-        # }
+        url = URL
+        headers = {
+          "Authorization": f"Bearer {API_KEY}",
+          "Content-Type": "application/json"
+        }
 
-        # payload = {
-        #   "model": "openai/gpt-4o",
-        #   "messages": [{
-        #     "role": "user",
-        #     "content": user_ques_data['question']
-        #   }],
-        #   "stream": True
-        # }
+        payload = {
+          "model": "openai/gpt-4o",
+          "messages": [{
+            "role": "user",
+            "content": user_ques_data['question']
+          }],
+          "stream": True
+        }
 
-        # buffer = ""
-        # with requests.post(url, headers=headers, json=payload, stream=True) as r:
-        #   for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
-        #     buffer += chunk
-        #     while True:
-        #       try:
-        #         # Find the next complete SSE line
-        #         line_end = buffer.find('\n')
-        #         if line_end == -1:
-        #           break
+        buffer = ""
+        with requests.post(url, headers=headers, json=payload, stream=True) as r:
+          for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+            buffer += chunk
+            while True:
+              try:
+                # Find the next complete SSE line
+                line_end = buffer.find('\n')
+                if line_end == -1:
+                  break
 
-        #         line = buffer[:line_end].strip()
-        #         buffer = buffer[line_end + 1:]
+                line = buffer[:line_end].strip()
+                buffer = buffer[line_end + 1:]
 
-        #         # Skip SSE comments (lines starting with ":"), e.g. the
-        #         # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
-        #         if line.startswith(':'):
-        #           continue
+                # Skip SSE comments (lines starting with ":"), e.g. the
+                # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
+                if line.startswith(':'):
+                  continue
 
-        #         if line.startswith('data: '):
-        #           data = line[6:]
-        #           if data == '[DONE]':
-        #             break
+                if line.startswith('data: '):
+                  data = line[6:]
+                  if data == '[DONE]':
+                    break
 
-        #           try:
+                  try:
                     
-        #             data_obj = json.loads(data)
-        #             # print(data_obj)
-        #             content = data_obj["choices"][0]["delta"].get("content")
-        #             if content:
-        #               print(content, end="", flush=True)
-        #               self.wfile.write(content.encode("utf-8"))
+                    data_obj = json.loads(data)
+                    # print(data_obj)
+                    content = data_obj["choices"][0]["delta"].get("content")
+                    if content:
+                      print(content, end="", flush=True)
+                      self.wfile.write(content.encode("utf-8"))
                       
-        #           except json.JSONDecodeError:
-        #             pass
+                  except json.JSONDecodeError:
+                    pass
 
                   
-        #       except Exception:
-        #         break
+              except Exception:
+                break
 
         self.send_response(200)
         print("Got the Answer.")
@@ -243,29 +253,10 @@ class handler(BaseHTTPRequestHandler):
           }).encode()
         )
 
-  # get JSON data w/ API and extract image URL
-  # Using Pixabay
   # Using SERPAPI
   def get_image_url(self, ques):
     data = []
     print("Inside get img urls")
-    # # base_url = f"https://pixabay.com/api/?key={img_urls_key}&image_type=photo&editors_choice=true&safesearch=true&q="
-    # base_url = "https://mulberry-tiny-washer.glitch.me/data?query=monalisa&service=all"
-    # try:
-    #   api_res = requests.get(base_url).json()
-    #   print(api_res)
-    #   # for item in api_res['hits']:
-    #     # data.append(item['largeImageURL'])
-    #     # print(item['largeImageURL'])
-
-    # except Exception as exc:
-    #   print("Error:", exc)
-    #   data = None
-
-    # if len(data) > 5:
-    #   return data[:5]
-
-    # return data
 
     client = serpapi.Client(api_key=SERPAPI_KEY)
     results = client.search({

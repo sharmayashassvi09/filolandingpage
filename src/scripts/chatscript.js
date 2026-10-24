@@ -1,8 +1,4 @@
 async function chatText(){
-  const question = sessionStorage.getItem('Question');
-
-  const questionfromserver = document.querySelector('.question-from-server');
-  questionfromserver.textContent = question;
   const answerText = document.querySelector('.answer-from-server');
   answerText.textContent = "";
 
@@ -16,72 +12,80 @@ async function chatText(){
     row.classList.add("skeleton");
   });
 
-  const quesNumber = -1;
-  fetch('http://127.0.0.1:8000/chat') 
-  .then((response) => response.json())
-  .then((data) => {console.log(data)})
+  const questionfromserver = document.querySelector('.question-from-server');
+
+  let question = ""
+  await fetch('http://127.0.0.1:8000/chat') 
+  .then(async (response) => await response.json())
+  .then((data) => {
+    console.log(data);
+    questionfromserver.textContent = data;
+    question = data;
+  })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
   })
 
-  // const res = fetch('http://127.0.0.1:8000/chat', {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify({
-  //     "question": question
-  //   })											
-  // })
-  // .then(response => {
-  //   const reader = response.body.getReader();
-  //   const decoder = new TextDecoder();
-  //   const head = response.headers.get('img_url');
-  //   console.log(head);
-  //   let receivedLength = 0;
+  console.log(questionfromserver.textContent);
+
+  fetch('http://127.0.0.1:8000/chat', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "question": question
+    })                      
+  })
+  .then(response => {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    const head = response.headers.get('img_url');
+    console.log(head);
+    let receivedLength = 0;
     
-  //   return new ReadableStream({
-  //     start(controller) {
-  //       function push() {
-  //         reader.read().then(({ done, value }) => {
-  //           if (done) {
-  //             controller.close();
-  //             return;
-  //           }
+    return new ReadableStream({
+      start(controller) {
+        function push() {
+          reader.read().then(({ done, value }) => {
+            if (done) {
+              controller.close();
+              return;
+            }
             
-  //           loadingRow.forEach((row) => {
-  //             row.classList.remove("skeleton");
-  //           });
-  //           loadingRowHalf.forEach((row) => {
-  //             row.classList.remove("skeleton");
-  //           });
-  //           loadingRowDiv.style.height = '0px';
+            loadingRow.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowHalf.forEach((row) => {
+              row.classList.remove("skeleton");
+            });
+            loadingRowDiv.style.height = '0px';
             
-  //           receivedLength += value.length;
-  //           const chunk = decoder.decode(value, { stream: true });
-  //           console.log(chunk);
-  //           answerText.textContent += chunk;
-  //           controller.enqueue(value);
-  //           push();
-  //         });
-  //       }
-	// 			push();
-	// 		}
-	// 	});
-	// })
-  // .then(stream => new Response(stream))
-	// .then(response => response.text())
-	// .then(data => {
-	// 	console.log("Streaming complete");
-	// })
-	// .catch(error => {
-	// 	console.error('Streaming error:', error);
-	// });
+            receivedLength += value.length;
+            const chunk = decoder.decode(value, { stream: true });
+            console.log(chunk);
+            answerText.textContent += chunk;
+            controller.enqueue(value);
+            push();
+          });
+        }
+        push();
+      }
+    });
+  })
+  .then(stream => new Response(stream))
+  .then(response => response.text())
+  .then(data => {
+    console.log("Streaming complete");
+  })
+  .catch(error => {
+    console.error('Streaming error:', error);
+  });
 }
 chatText()
 
 const sendToServer = () => {
-	const textQuestion = document.getElementById('questiondata');
+  const textQuestion = document.getElementById('questiondata');
   sessionStorage.setItem("Question", textQuestion.textContent);
 
   const questionfromserver = document.querySelector('.question-from-server');
@@ -101,31 +105,31 @@ const sendToServer = () => {
   });
 
   const getSolutionbutton = document.querySelector('.getsol');
-	const buttonText = document.querySelector("#buttonText");
+  const buttonText = document.querySelector("#buttonText");
 
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
 
-	const res = fetch('http://127.0.0.1:8000/chat', {
+  const res = fetch('http://127.0.0.1:8000/chat', {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
       "question": textQuestion.textContent
-    })											
+    })                      
   })
-	.then(response => {
-		const reader = response.body.getReader();
-		const decoder = new TextDecoder();
-		let receivedLength = 0;
+  .then(response => {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let receivedLength = 0;
 
     textQuestion.textContent = "";
     
-		return new ReadableStream({
-			start(controller) {
-				function push() {
-					reader.read().then(({ done, value }) => {
+    return new ReadableStream({
+      start(controller) {
+        function push() {
+          reader.read().then(({ done, value }) => {
             if (done) {
               controller.close();
               return;
@@ -149,16 +153,16 @@ const sendToServer = () => {
             push();
           });
         }
-			  push();			
-		  }
-	  });
-	})
+        push();     
+      }
+    });
+  })
   .then(stream => new Response(stream))
   .then(response => response.text())
   .then(data => {
   console.log("Streaming complete");
-	})
-	.catch(error => {
-		console.error('Streaming error:', error);
-	});
+  })
+  .catch(error => {
+    console.error('Streaming error:', error);
+  });
 };

@@ -199,30 +199,34 @@ cardContainer.addEventListener("mouseleave", () => {
 // <--- ---- ---- Sending data to Python server ---- ---- --->
 
 const sendToServer = () => {
-	setTimeout(() => {
-		window.location.href = "./src/pages/chat.html";
-	}, 2000);
 	const textQuestion = document.getElementById('questiondata');
+	console.log(textQuestion.textContent);
+
 	fetch('http://127.0.0.1:8000', {
 		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(textQuestion.textContent)
+		headers: { 
+			"Content-Type": "application/json" 
+		},
+		body: JSON.stringify({
+			"question": textQuestion.textContent
+		})
 	}) 
-  .then((response) => response.json())
+  .then(async (response) => await response.json())
   .then((data) => {
     console.log(data);
-    
   })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
   })
-	sessionStorage.setItem("Question", textQuestion.textContent);
 
 	const getSolutionbutton = document.querySelector('.getsol');
 	const buttonText = document.querySelector("#buttonText");
 
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
+	setTimeout(() => {
+		window.location.href = "./src/pages/chat.html";
+	}, 2000);
 };
 
 
