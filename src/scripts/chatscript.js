@@ -16,59 +16,67 @@ async function chatText(){
     row.classList.add("skeleton");
   });
 
-  const res = fetch('http://127.0.0.1:8000/chat', {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      "question": question
-    })											
+  const quesNumber = -1;
+  fetch('http://127.0.0.1:8000/chat') 
+  .then((response) => response.json())
+  .then((data) => {console.log(data)})
+  .catch((error) => {
+    console.log("Error fetching JSON file:", error);
   })
-  .then(response => {
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    const head = response.headers.get('img_url');
-    console.log(head);
-    let receivedLength = 0;
+
+  // const res = fetch('http://127.0.0.1:8000/chat', {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify({
+  //     "question": question
+  //   })											
+  // })
+  // .then(response => {
+  //   const reader = response.body.getReader();
+  //   const decoder = new TextDecoder();
+  //   const head = response.headers.get('img_url');
+  //   console.log(head);
+  //   let receivedLength = 0;
     
-    return new ReadableStream({
-      start(controller) {
-        function push() {
-          reader.read().then(({ done, value }) => {
-            if (done) {
-              controller.close();
-              return;
-            }
+  //   return new ReadableStream({
+  //     start(controller) {
+  //       function push() {
+  //         reader.read().then(({ done, value }) => {
+  //           if (done) {
+  //             controller.close();
+  //             return;
+  //           }
             
-            loadingRow.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowHalf.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowDiv.style.height = '0px';
+  //           loadingRow.forEach((row) => {
+  //             row.classList.remove("skeleton");
+  //           });
+  //           loadingRowHalf.forEach((row) => {
+  //             row.classList.remove("skeleton");
+  //           });
+  //           loadingRowDiv.style.height = '0px';
             
-            receivedLength += value.length;
-            const chunk = decoder.decode(value, { stream: true });
-            console.log(chunk);
-            answerText.textContent += chunk;
-            controller.enqueue(value);
-            push();
-          });
-        }
-				push();
-			}
-		});
-	})
-  .then(stream => new Response(stream))
-	.then(response => response.text())
-	.then(data => {
-		console.log("Streaming complete");
-	})
-	.catch(error => {
-		console.error('Streaming error:', error);
-	});
+  //           receivedLength += value.length;
+  //           const chunk = decoder.decode(value, { stream: true });
+  //           console.log(chunk);
+  //           answerText.textContent += chunk;
+  //           controller.enqueue(value);
+  //           push();
+  //         });
+  //       }
+	// 			push();
+	// 		}
+	// 	});
+	// })
+  // .then(stream => new Response(stream))
+	// .then(response => response.text())
+	// .then(data => {
+	// 	console.log("Streaming complete");
+	// })
+	// .catch(error => {
+	// 	console.error('Streaming error:', error);
+	// });
 }
 chatText()
 

@@ -203,6 +203,19 @@ const sendToServer = () => {
 		window.location.href = "./src/pages/chat.html";
 	}, 2000);
 	const textQuestion = document.getElementById('questiondata');
+	fetch('http://127.0.0.1:8000', {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(textQuestion.textContent)
+	}) 
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    
+  })
+  .catch((error) => {
+    console.log("Error fetching JSON file:", error);
+  })
 	sessionStorage.setItem("Question", textQuestion.textContent);
 
 	const getSolutionbutton = document.querySelector('.getsol');
