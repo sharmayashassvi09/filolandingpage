@@ -125,6 +125,7 @@ body {
 .question-from-server{
   padding: 16px 0;
   font-size: 1em;
+  font-family: "Satoshi", sans-serif;
 }
 
 .answer {
@@ -176,6 +177,7 @@ body {
 .answer-from-server{
   width: 100%;
   margin-bottom: 10px;
+  font-family: "Satoshi", sans-serif;
 }
 
 .downtext {

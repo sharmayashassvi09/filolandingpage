@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
           self.send_header('Content-type', 'application/json')
           self.send_header("Access-Control-Allow-Origin", "*")
           self.end_headers()
-
+  
           self.wfile.write(
             json.dumps(data['Questions'][-1]).encode()
           )
@@ -291,28 +291,40 @@ class handler(BaseHTTPRequestHandler):
           "model": "openai/gpt-4o",
           "messages": [
               {
-                  "role": "user",
-                  "content": user_ques_data["question"]
+                "role": "user",
+                "content": f"""Answer the following question using valid HTML that can be rendered directly using JavaScript's innerHTML.
+
+                Requirements:
+                - Wrap the entire response inside a single <div>.
+                - Use nested <div> elements to organize related content.
+                - Use appropriate HTML tags such as <h2>, <h3>, <p>, <strong>, <ul>, <ol>, and <li>.
+                - Use <img src="URL" alt="description"> for relevant images when valid image URLs are available.
+                - Do not use Markdown syntax or Markdown code fences.
+                - Do not include <html>, <head>, or <body> tags.
+                - Return only the HTML, with no additional explanations or text.
+                - Ensure all tags are properly closed and the HTML is valid.
+
+                Question: {user_ques_data["question"]}"""
               },
               {
-                  "role": "assistant",
-                  "content": None,
-                  "tool_calls": [
-                      {
-                          "id": call["id"],
-                          "type": "function",
-                          "function": {
-                              "name": call["name"],
-                              "arguments": call["arguments"]
-                          }
-                      }
-                      for call in tool_calls.values()
-                  ]
+                "role": "assistant",
+                "content": None,
+                "tool_calls": [
+                    {
+                        "id": call["id"],
+                        "type": "function",
+                        "function": {
+                            "name": call["name"],
+                            "arguments": call["arguments"]
+                        }
+                    }
+                    for call in tool_calls.values()
+                ]
               },
               {
-                  "role": "tool",
-                  "tool_call_id": call["id"],
-                  "content": json.dumps(image_urls)
+                "role": "tool",
+                "tool_call_id": call["id"],
+                "content": json.dumps(image_urls)
               }
           ],
           "stream": True

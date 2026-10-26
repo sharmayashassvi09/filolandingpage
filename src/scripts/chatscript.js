@@ -28,6 +28,7 @@ async function chatText(){
 
   console.log(questionfromserver.textContent);
 
+  let fullresponse = "";
   fetch('http://127.0.0.1:8000/chat', {
     method: "POST",
     headers: {
@@ -65,6 +66,7 @@ async function chatText(){
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
+            fullresponse += chunk
             controller.enqueue(value);
             push();
           });
@@ -76,6 +78,7 @@ async function chatText(){
   .then(stream => new Response(stream))
   .then(response => response.text())
   .then(data => {
+    answerText.innerHTML = fullresponse;
     console.log("Streaming complete");
   })
   .catch(error => {
@@ -110,6 +113,7 @@ const sendToServer = () => {
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
 
+  let fullresponse = "";
   const res = fetch('http://127.0.0.1:8000/chat', {
     method: "POST",
     headers: {
@@ -149,6 +153,7 @@ const sendToServer = () => {
             const chunk = decoder.decode(value, { stream: true });
             console.log(chunk);
             answerText.textContent += chunk;
+            fullresponse += chunk;
             controller.enqueue(value);
             push();
           });
@@ -160,9 +165,51 @@ const sendToServer = () => {
   .then(stream => new Response(stream))
   .then(response => response.text())
   .then(data => {
-  console.log("Streaming complete");
+    answerText.innerHTML = fullresponse;
+    console.log("Streaming complete");
   })
   .catch(error => {
     console.error('Streaming error:', error);
   });
 };
+
+function parseMarkdown(text) {
+  return text
+    // 1. Clean up windows-style newlines
+    .replace(/\r\n/g, '\n')
+    
+    // 2. Headings (H1 to H6)
+    .replace(/^###### (.*$)/gim, '<h6>$1</h6>')
+    .replace(/^##### (.*$)/gim, '<h5>$1</h5>')
+    .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    
+    // 3. Bold (**text**) and Italics (*text* or _text_)
+    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+    .replace(/__(.*)__/gim, '<strong>$1</strong>')
+    .replace(/\*(.*)\*/gim, '<em>$1</em>')
+    .replace(/_(.*)_/gim, '<em>$1</em>')
+    
+    // 4. Inline Code (`code`)
+    .replace(/`(.*?)`/gim, '<code>$1</code>')
+    
+    // 5. Links ([text](url))
+    .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>')
+    
+    // 6. Blockquotes (> text)
+    .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+    
+    // 7. Paragraphs & Line Breaks (Wrap standalone lines in <p>)
+    .split('\n\n')
+    .map(paragraph => {
+      // If it's already an HTML block element (like H1-H6 or blockquote), leave it
+      if (paragraph.trim().match(/^<\/?(h[1-6]|blockquote|ul|ol|li)/i)) {
+        return paragraph;
+      }
+      // Otherwise, wrap it in a paragraph tag
+      return paragraph.trim() ? `<p>${paragraph.trim().replace(/\n/g, '<br>')}</p>` : '';
+    })
+    .join('\n');
+}
