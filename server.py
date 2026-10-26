@@ -95,8 +95,8 @@ class handler(BaseHTTPRequestHandler):
         with open("./src/data/chats.json") as file:
           data = json.load(file)
 
-        if user_ques_data['question'] not in data['Questions']:
-          data['Questions'].append(user_ques_data['question'])
+        
+        data['Questions'].append(user_ques_data['question'])
         
         print(data)
         with open("./src/data/chats.json", "w") as file:
@@ -186,10 +186,38 @@ class handler(BaseHTTPRequestHandler):
             "role": "user",
             "content": user_ques_data['question']
           }],
-          "stream": True
+          "stream": True,
+          "tools": [
+            {
+              "type": "function",
+              "function": {
+                "name": "get_image_url",
+                "description": "Get image urls if an image is required for better understanding of the question.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "query": {
+                      "type": "string",
+                      "description": (
+                        "A concise search query describing the "
+                        "subject to find images of."
+                      )
+                    },
+                  },
+                  "required": ["query"]
+                }
+              }
+            }
+          ],
+          "tool_choice": {
+            "type": "function",
+            "function": {"name": "get_image_url"}
+          }
+          # "tool_choice": "auto"
         }
 
         buffer = ""
+        tool_calls = {}
         with requests.post(url, headers=headers, json=payload, stream=True) as r:
           for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
             buffer += chunk
@@ -214,18 +242,114 @@ class handler(BaseHTTPRequestHandler):
                     break
 
                   try:
-                    
+                    data_obj = json.loads(data)
+                    # print(data_obj)
+                    # content = data_obj["choices"][0]["delta"].get("content")
+                    # if content:
+                    #   print(content, end="", flush=True)
+                    #   self.wfile.write(content.encode("utf-8"))
+
+                    # tool_calls = data_obj["choices"][0]["delta"].get("tool_calls")
+                    # if tool_calls:
+                    #     print("\nTool call:", tool_calls, flush=True)
+
+                    calls = data_obj["choices"][0]["delta"].get("tool_calls") or []
+                    for call in calls:
+                      index = call["index"]
+
+                      if index not in tool_calls:
+                          tool_calls[index] = {
+                              "id": "",
+                              "name": "",
+                              "arguments": ""
+                          }
+
+                      if call.get("id"):
+                          tool_calls[index]["id"] = call["id"]
+
+                      function = call.get("function", {})
+                      tool_calls[index]["name"] += function.get("name") or ""
+                      tool_calls[index]["arguments"] += function.get("arguments") or ""
+                  except json.JSONDecodeError:
+                    pass
+              except Exception:
+                break
+
+        image_urls = {}
+        print("Getting URLs")
+        print("Collected tool calls:", tool_calls)
+
+        for call in tool_calls.values():
+            if call["name"] == "get_image_url":
+              args = json.loads(call["arguments"])
+              print(args["query"])
+
+              image_urls = self.get_image_url(args["query"])
+              # print("Image URLs:", image_urls)
+
+        second_payload = {
+          "model": "openai/gpt-4o",
+          "messages": [
+              {
+                  "role": "user",
+                  "content": user_ques_data["question"]
+              },
+              {
+                  "role": "assistant",
+                  "content": None,
+                  "tool_calls": [
+                      {
+                          "id": call["id"],
+                          "type": "function",
+                          "function": {
+                              "name": call["name"],
+                              "arguments": call["arguments"]
+                          }
+                      }
+                      for call in tool_calls.values()
+                  ]
+              },
+              {
+                  "role": "tool",
+                  "tool_call_id": call["id"],
+                  "content": json.dumps(image_urls)
+              }
+          ],
+          "stream": True
+      }
+        buffer = ""
+        with requests.post(url, headers=headers, json=second_payload, stream=True) as r:
+          for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+            buffer += chunk
+            while True:
+              try:
+                # Find the next complete SSE line
+                line_end = buffer.find('\n')
+                if line_end == -1:
+                  break
+
+                line = buffer[:line_end].strip()
+                buffer = buffer[line_end + 1:]
+
+                # Skip SSE comments (lines starting with ":"), e.g. the
+                # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
+                if line.startswith(':'):
+                  continue
+
+                if line.startswith('data: '):
+                  data = line[6:]
+                  if data == '[DONE]':
+                    break
+
+                  try:
                     data_obj = json.loads(data)
                     # print(data_obj)
                     content = data_obj["choices"][0]["delta"].get("content")
                     if content:
                       print(content, end="", flush=True)
                       self.wfile.write(content.encode("utf-8"))
-                      
                   except json.JSONDecodeError:
                     pass
-
-                  
               except Exception:
                 break
 
@@ -274,7 +398,7 @@ class handler(BaseHTTPRequestHandler):
     # print(images_results)
     return data
 
-  def img_generation(self, ques):
+  # def img_generation(self, ques):
     print(ques)
     url = URL
     headers = {
