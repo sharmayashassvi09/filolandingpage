@@ -14,13 +14,15 @@ async function chatText(){
 
   const questionfromserver = document.querySelector('.question-from-server');
 
-  let question = ""
+  let data_ques = "";
+  let data_id = "";
   await fetch('http://127.0.0.1:8000/chat') 
   .then(async (response) => await response.json())
   .then((data) => {
     console.log(data);
-    questionfromserver.textContent = data;
-    question = data;
+    questionfromserver.textContent = data['question'];
+    data_ques = data['question'];
+    data_id = data['id'];
   })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
@@ -35,7 +37,7 @@ async function chatText(){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      "question": question
+      "question": data_ques
     })                      
   })
   .then(response => {

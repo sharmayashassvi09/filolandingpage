@@ -19,7 +19,7 @@ class handler(BaseHTTPRequestHandler):
 
   def do_GET(self):
     if self.path == "/chat":
-      print("Path:", self.path)
+      print("Inside do_GET chat")
       try:
         with open("./src/data/chats.json") as file:
           data = json.load(file)
@@ -29,9 +29,16 @@ class handler(BaseHTTPRequestHandler):
           self.send_header('Content-type', 'application/json')
           self.send_header("Access-Control-Allow-Origin", "*")
           self.end_headers()
-  
+
+          id = str(len(data))
+          print(data[id])
+          send_data = {
+            "id": id,
+            "question": data[id]
+          }
+          print(send_data)
           self.wfile.write(
-            json.dumps(data['Questions'][-1]).encode()
+            json.dumps(send_data).encode()
           )
 
       except Exception as error:
@@ -52,7 +59,7 @@ class handler(BaseHTTPRequestHandler):
       self.send_header('Content-type', 'application/json')
       self.send_header("Access-Control-Allow-Origin", "*")
       self.end_headers()
-      print("inside do_GET")
+      print("inside do_GET Solutions")
       
       try:
         with open("./src/data/chats.json") as file:
@@ -60,7 +67,7 @@ class handler(BaseHTTPRequestHandler):
           print(data)
 
         self.wfile.write(
-          json.dumps(data['Questions']).encode()
+          json.dumps(data).encode()
         )
       except Exception as error:
         self.send_response(500)
@@ -95,8 +102,9 @@ class handler(BaseHTTPRequestHandler):
         with open("./src/data/chats.json") as file:
           data = json.load(file)
 
-        
-        data['Questions'].append(user_ques_data['question'])
+        id = len(data) + 1
+        # new_ques = {id: user_ques_data['question']}
+        data[id] = user_ques_data['question']
         
         print(data)
         with open("./src/data/chats.json", "w") as file:
@@ -108,6 +116,7 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers() 
         
         result = {
+          "id": id,
           "question": user_ques_data['question'],
         }
         self.wfile.write(
@@ -146,8 +155,9 @@ class handler(BaseHTTPRequestHandler):
         with open("./src/data/chats.json") as file:
           data = json.load(file)
 
-        if user_ques_data['question'] not in data['Questions']:
-          data['Questions'].append(user_ques_data['question'])
+        id = len(data) + 1
+        if user_ques_data['question'] not in data.values():
+          data[id] = user_ques_data['question']
         
         # print(data)
         with open("./src/data/chats.json", "w") as file:
@@ -280,12 +290,12 @@ class handler(BaseHTTPRequestHandler):
         print("Collected tool calls:", tool_calls)
 
         for call in tool_calls.values():
-            if call["name"] == "get_image_url":
-              args = json.loads(call["arguments"])
-              print(args["query"])
+          if call["name"] == "get_image_url":
+            args = json.loads(call["arguments"])
+            print(args["query"])
 
-              image_urls = self.get_image_url(args["query"])
-              # print("Image URLs:", image_urls)
+            image_urls = self.get_image_url(args["query"])
+            # print("Image URLs:", image_urls)
 
         second_payload = {
           "model": "openai/gpt-4o",
@@ -328,7 +338,7 @@ class handler(BaseHTTPRequestHandler):
               }
           ],
           "stream": True
-      }
+        }
         buffer = ""
         with requests.post(url, headers=headers, json=second_payload, stream=True) as r:
           for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
