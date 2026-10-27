@@ -4,8 +4,9 @@ function populateQuestions() {
   fetch('http://127.0.0.1:8000/solutions') 
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
-    data.forEach(ques => {
+    // console.log(data);
+    const ques = Object.values(data);
+    ques.forEach(q => {
       const newElement = document.createElement("div");
       const new_question = `  
         <div class="question">
@@ -15,13 +16,13 @@ function populateQuestions() {
               <svg viewBox="0 0 4 14" xmlns="http://www.w3.org/2000/svg" fill="none" height="12px" width="12px" style="display: block;"><path xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" d="M0 1.66667C0 0.746192 0.746192 0 1.66667 0C2.58714 0 3.33333 0.746192 3.33333 1.66667C3.33333 2.58714 2.58714 3.33333 1.66667 3.33333C0.746192 3.33333 0 2.58714 0 1.66667ZM0 6.66667C0 5.74619 0.746192 5 1.66667 5C2.58714 5 3.33333 5.74619 3.33333 6.66667C3.33333 7.58714 2.58714 8.33333 1.66667 8.33333C0.746192 8.33333 0 7.58714 0 6.66667ZM0 11.6667C0 10.7462 0.746192 10 1.66667 10C2.58714 10 3.33333 10.7462 3.33333 11.6667C3.33333 12.5871 2.58714 13.3333 1.66667 13.3333C0.746192 13.3333 0 12.5871 0 11.6667Z" fill="#8A8A8A"></path></svg>
             </div>
           </div>
-          <div class="this-question">${ques}</div>
+          <div class="this-question">${q}</div>
         </div>
       `
       newElement.innerHTML = new_question;
       question_container.appendChild(newElement);
-      newElement.onlick = sendToServer();
-      console.log(ques);
+      // newElement.onlick = sendToServer();
+      console.log(q);
     });
   })
   .catch((error) => {
@@ -30,14 +31,14 @@ function populateQuestions() {
 }
 populateQuestions()
 
-function sendToServer() {
-	// const questions = document.querySelector('.questions-container');
-  // const currQues = document.querySelector('.this-question');
+// function sendToServer() {
+// 	const questions = document.querySelector('.questions-container');
+//   const currQues = document.querySelector('.this-question');
   
 
-	// questions.addEventListener("click", (ques) =>{
-  //   // console.log(questions.children.children.textContent);
-  //   // sessionStorage.setItem('Question', ques.target.textContent);
-	// 	// window.location.href = "chat.html";
-	// })
-}
+// 	questions.addEventListener("click", (ques) =>{
+//     console.log(questions.children.children.textContent);
+//     sessionStorage.setItem('Question', ques.target.textContent);
+// 		window.location.href = "chat.html";
+// 	})
+// }
