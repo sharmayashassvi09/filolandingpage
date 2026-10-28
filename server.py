@@ -191,7 +191,7 @@ class class_handler(SimpleHTTPRequestHandler):
         #   print("Image not needed")
 
         self.send_response(200)
-        self.send_header('Content-type', 'text/plain; charset=utf-8')
+        self.send_header('Content-type', 'application/json')
         self.send_header("Access-Control-Allow-Origin", "*")
         # self.send_header('img_url', image_urls)
         self.end_headers()
@@ -266,7 +266,7 @@ class class_handler(SimpleHTTPRequestHandler):
 
                   try:
                     data_obj = json.loads(data)
-                    print(data_obj)
+                    # print(data_obj)
                     content = data_obj["choices"][0]["delta"].get("content")
                     if content:
                       print(content, end="", flush=True)

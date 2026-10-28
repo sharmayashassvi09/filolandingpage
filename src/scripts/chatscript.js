@@ -202,9 +202,13 @@ async function chatText() {
     }),
   });
 
+  console.log("2. Response received:", response.status);
+  console.log("3. Content-Type:", response.headers.get("Content-Type"));
+
   // Errors that occur before streaming starts are plain JSON, not SSE
   if (!response.ok) {
     const error = await response.json();
+    console.error("Server error:", error);
     throw new Error(error.error.message);
   }
 
@@ -214,10 +218,8 @@ async function chatText() {
       try {
         const chunk = JSON.parse(event.data);
         const content = chunk.choices?.[0]?.delta?.content;
-        console.log(content)
         if (content) {
           console.log(content);
-
         }
       } catch (error) {
         console.log(error);
@@ -225,12 +227,28 @@ async function chatText() {
     },
   });
 
+  console.log("4. Starting to read stream");
+
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
+  
   while (true) {
+    loadingRow.forEach((row) => {
+      row.classList.remove("skeleton");
+    });
+    loadingRowHalf.forEach((row) => {
+      row.classList.remove("skeleton");
+    });
+    loadingRowDiv.style.height = '0px';
+    
     const { done, value } = await reader.read();
-    if (done) break;
-    parser.feed(decoder.decode(value, { stream: true }));
+    if (done) {
+      console.log("5. Stream finished");
+      break;
+    }
+    const text = decoder.decode(value, { stream: true });
+    
+    answerText.textContent += text;
   }
 
   // const stream = await fetch('http://127.0.0.1:8000/api/chat', {
