@@ -1,4 +1,166 @@
-async function chatText(){
+// async function chatText(){
+//   const answerText = document.querySelector('.answer-from-server');
+//   answerText.textContent = "";
+
+//   const loadingRowDiv = document.getElementById('card-title');
+//   const loadingRow = document.querySelectorAll('.skeleton-text');
+//   loadingRow.forEach((row) => {
+//     row.classList.add("skeleton");
+//   });
+//   const loadingRowHalf = document.querySelectorAll('.skeleton-text-half');
+//   loadingRowHalf.forEach((row) => {
+//     row.classList.add("skeleton");
+//   });
+
+//   const questionfromserver = document.querySelector('.question-from-server');
+
+//   let data_ques = "";
+//   let data_id = "";
+//   await fetch('http://127.0.0.1:8000/chat') 
+//   .then(async (response) => await response.json())
+//   .then((data) => {
+//     console.log(data);
+//     questionfromserver.textContent = data['question'];
+//     data_ques = data['question'];
+//     data_id = data['id'];
+//   })
+//   .catch((error) => {
+//     console.log("Error fetching JSON file:", error);
+//   })
+
+//   console.log(questionfromserver.textContent);
+
+//   let fullresponse = "";
+//   fetch('http://127.0.0.1:8000/chat', {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({
+//       "question": data_ques
+//     })                      
+//   })
+//   .then(response => {
+//     const reader = response.body.getReader();
+//     const decoder = new TextDecoder();
+//     const head = response.headers.get('img_url');
+//     console.log(head);
+//     let receivedLength = 0;
+    
+//     return new ReadableStream({
+//       start(controller) {
+//         function push() {
+//           reader.read().then(({ done, value }) => {
+//             if (done) {
+//               controller.close();
+//               return;
+//             }
+            
+//             loadingRow.forEach((row) => {
+//               row.classList.remove("skeleton");
+//             });
+//             loadingRowHalf.forEach((row) => {
+//               row.classList.remove("skeleton");
+//             });
+//             loadingRowDiv.style.height = '0px';
+            
+//             receivedLength += value.length;
+//             const chunk = decoder.decode(value, { stream: true });
+//             console.log(chunk);
+//             answerText.textContent += chunk;
+//             fullresponse += chunk
+//             controller.enqueue(value);
+//             push();
+//           });
+//         }
+//         push();
+//       }
+//     });
+//   })
+//   .then(stream => new Response(stream))
+//   .then(response => response.text())
+//   .then(data => {
+//     answerText.innerHTML = fullresponse;
+//     console.log("Streaming complete");
+//   })
+//   .catch(error => {
+//     console.error('Streaming error:', error);
+//   });
+// }
+
+// async function chatText(){
+//   const stream = await fetch('http://127.0.0.1:8000/chat', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//       "question": data_ques
+//     }) 
+//   });
+
+//   const reader = stream.body.getReader();
+//   let toolCalls = [];
+
+//   while (true) {
+//     const { done, value } = await reader.read();
+//     if (done) {
+//       break;
+//     }
+
+//     const chunk = new TextDecoder().decode(value);
+//     const lines = chunk.split('\n').filter(line => line.trim());
+
+//     for (const line of lines) {
+//       if (line.startsWith('data: ')) {
+//         const data = JSON.parse(line.slice(6));
+
+//         if (data.choices[0].delta.tool_calls) {
+//           toolCalls.push(...data.choices[0].delta.tool_calls);
+//         }
+
+//         if (data.choices[0].delta.finish_reason === 'tool_calls') {
+//           await handleToolCalls(toolCalls);
+//         } else if (data.choices[0].delta.finish_reason === 'stop') {
+          
+//           let receivedLength = 0;
+//           return new ReadableStream({
+//             start(controller) {
+//               function push() {
+//                 reader.read().then(({ done, value }) => {
+//                   if (done) {
+//                     controller.close();
+//                     return;
+//                   }
+                  
+//                   loadingRow.forEach((row) => {
+//                     row.classList.remove("skeleton");
+//                   });
+//                   loadingRowHalf.forEach((row) => {
+//                     row.classList.remove("skeleton");
+//                   });
+//                   loadingRowDiv.style.height = '0px';
+                  
+//                   receivedLength += value.length;
+//                   const partText = chunk.decode(value, { stream: true });
+//                   console.log(partText);
+//                   answerText.textContent += partText;
+//                   fullresponse += partText
+//                   controller.enqueue(value);
+//                   push();
+//                 });
+//               }
+//               push();
+//             }
+//           });
+//           break;
+//         }
+//       }
+//     }
+//   }
+// }
+
+import { createParser } from "https://esm.sh/eventsource-parser";
+
+async function chatText() {
   const answerText = document.querySelector('.answer-from-server');
   answerText.textContent = "";
 
@@ -16,7 +178,7 @@ async function chatText(){
 
   let data_ques = "";
   let data_id = "";
-  await fetch('http://127.0.0.1:8000/chat') 
+  await fetch('http://127.0.0.1:8000/api/chat') 
   .then(async (response) => await response.json())
   .then((data) => {
     console.log(data);
@@ -30,63 +192,89 @@ async function chatText(){
 
   console.log(questionfromserver.textContent);
 
-  let fullresponse = "";
-  fetch('http://127.0.0.1:8000/chat', {
-    method: "POST",
+  const response = await fetch('http://127.0.0.1:8000/api/chat', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "question": data_ques
-    })                      
-  })
-  .then(response => {
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    const head = response.headers.get('img_url');
-    console.log(head);
-    let receivedLength = 0;
-    
-    return new ReadableStream({
-      start(controller) {
-        function push() {
-          reader.read().then(({ done, value }) => {
-            if (done) {
-              controller.close();
-              return;
-            }
-            
-            loadingRow.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowHalf.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowDiv.style.height = '0px';
-            
-            receivedLength += value.length;
-            const chunk = decoder.decode(value, { stream: true });
-            console.log(chunk);
-            answerText.textContent += chunk;
-            fullresponse += chunk
-            controller.enqueue(value);
-            push();
-          });
-        }
-        push();
-      }
-    });
-  })
-  .then(stream => new Response(stream))
-  .then(response => response.text())
-  .then(data => {
-    answerText.innerHTML = fullresponse;
-    console.log("Streaming complete");
-  })
-  .catch(error => {
-    console.error('Streaming error:', error);
+      'question': data_ques
+    }),
   });
+
+  // Errors that occur before streaming starts are plain JSON, not SSE
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error.message);
+  }
+
+  const parser = createParser({
+    onEvent(event) {
+      if (event.data === '[DONE]') return;
+      try {
+        const chunk = JSON.parse(event.data);
+        const content = chunk.choices?.[0]?.delta?.content;
+        console.log(content)
+        if (content) {
+          console.log(content);
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    parser.feed(decoder.decode(value, { stream: true }));
+  }
+
+  // const stream = await fetch('http://127.0.0.1:8000/api/chat', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     'question': data_ques
+  //   }),
+  // });
+
+  // const reader = stream.body.getReader();
+  // let toolCalls = [];
+
+  // while (true) {
+  //   const { done, value } = await reader.read();
+  //   if (done) {
+  //     break;
+  //   }
+
+  //   const chunk = new TextDecoder().decode(value);
+  //   const lines = chunk.split('\n').filter(line => line.trim());
+
+  //   for (const line of lines) {
+  //     if (line.startsWith('data: ')) {
+  //       const data = JSON.parse(line.slice(6));
+
+  //       if (data.choices[0].delta.tool_calls) {
+  //         toolCalls.push(...data.choices[0].delta.tool_calls);
+  //       }
+
+  //       if (data.choices[0].delta.finish_reason === 'tool_calls') {
+  //         await handleToolCalls(toolCalls);
+  //       } else if (data.choices[0].delta.finish_reason === 'stop') {
+  //         // Regular completion without tool calls
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 }
+
+
 chatText()
 
 const sendToServer = () => {

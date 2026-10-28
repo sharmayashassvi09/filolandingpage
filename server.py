@@ -1,27 +1,28 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
 import os
 import requests
 from dotenv import load_dotenv
 import serpapi
+from functools import partial
+from pathlib import Path
 
 
 load_dotenv()
 URL = os.getenv("URL")
 API_KEY = os.getenv("API_KEY")
-img_urls_key = os.getenv("img_urls_key")
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
 HOST = "127.0.0.1"
 PORT = 8000
 
-class handler(BaseHTTPRequestHandler):
+class class_handler(SimpleHTTPRequestHandler):
 
   def do_GET(self):
-    if self.path == "/chat":
+    if self.path == "/api/chat":
       print("Inside do_GET chat")
       try:
-        with open("./src/data/chats.json") as file:
+        with open("src/data/chats.json") as file:
           data = json.load(file)
           print(data)
 
@@ -54,7 +55,7 @@ class handler(BaseHTTPRequestHandler):
         )
 
     # ------------------------------ x ---- x ------------------------------
-    if self.path == "/solutions":
+    elif self.path == "/api/solutions":
       self.send_response(200)
       self.send_header('Content-type', 'application/json')
       self.send_header("Access-Control-Allow-Origin", "*")
@@ -62,7 +63,7 @@ class handler(BaseHTTPRequestHandler):
       print("inside do_GET Solutions")
       
       try:
-        with open("./src/data/chats.json") as file:
+        with open("src/data/chats.json") as file:
           data = json.load(file)
           print(data)
 
@@ -81,6 +82,18 @@ class handler(BaseHTTPRequestHandler):
               "error": str(error)
           }).encode()
         )
+
+    elif self.path == "/":
+      self.path = "/index.html"
+      return super().do_GET()
+    elif self.path == "/chat":
+      self.path = "/src/pages/chat.html"
+      return super().do_GET()
+    elif self.path == "/solutions":
+      self.path = "/src/pages/solutions.html"
+      return super().do_GET()
+    else:
+      return super().do_GET()
     
   def do_OPTIONS(self):
     self.send_response(204)
@@ -99,7 +112,7 @@ class handler(BaseHTTPRequestHandler):
 
         print("Data read - 200.")
 
-        with open("./src/data/chats.json") as file:
+        with open("src/data/chats.json") as file:
           data = json.load(file)
 
         id = len(data) + 1
@@ -107,7 +120,7 @@ class handler(BaseHTTPRequestHandler):
         data[id] = user_ques_data['question']
         
         print(data)
-        with open("./src/data/chats.json", "w") as file:
+        with open("src/data/chats.json", "w") as file:
           json.dump(data, file)
 
         self.send_response(200)
@@ -137,7 +150,7 @@ class handler(BaseHTTPRequestHandler):
         )
 
     # ------------------------------ x ---- x ------------------------------
-    if self.path == "/chat":
+    if self.path == "/api/chat":
       try:
         content_length = int(self.headers['Content-Length'])
         request_body = self.rfile.read(content_length)
@@ -152,7 +165,7 @@ class handler(BaseHTTPRequestHandler):
         # self.send_header("Access-Control-Allow-Origin", "*")
 
         # self.send_response(200)
-        with open("./src/data/chats.json") as file:
+        with open("src/data/chats.json") as file:
           data = json.load(file)
 
         id = len(data) + 1
@@ -160,7 +173,7 @@ class handler(BaseHTTPRequestHandler):
           data[id] = user_ques_data['question']
         
         # print(data)
-        with open("./src/data/chats.json", "w") as file:
+        with open("src/data/chats.json", "w") as file:
           json.dump(data, file)
 
         # image_urls = self.get_image_url()
@@ -197,32 +210,32 @@ class handler(BaseHTTPRequestHandler):
             "content": user_ques_data['question']
           }],
           "stream": True,
-          "tools": [
-            {
-              "type": "function",
-              "function": {
-                "name": "get_image_url",
-                "description": "Get image urls if an image is required for better understanding of the question.",
-                "parameters": {
-                  "type": "object",
-                  "properties": {
-                    "query": {
-                      "type": "string",
-                      "description": (
-                        "A concise search query describing the "
-                        "subject to find images of."
-                      )
-                    },
-                  },
-                  "required": ["query"]
-                }
-              }
-            }
-          ],
-          "tool_choice": {
-            "type": "function",
-            "function": {"name": "get_image_url"}
-          }
+          # "tools": [
+          #   {
+          #     "type": "function",
+          #     "function": {
+          #       "name": "get_image_url",
+          #       "description": "Get image urls if an image is required for better understanding of the question.",
+          #       "parameters": {
+          #         "type": "object",
+          #         "properties": {
+          #           "query": {
+          #             "type": "string",
+          #             "description": (
+          #               "A concise search query describing the "
+          #               "subject to find images of."
+          #             )
+          #           },
+          #         },
+          #         "required": ["query"]
+          #       }
+          #     }
+          #   }
+          # ],
+          # "tool_choice": {
+          #   "type": "function",
+          #   "function": {"name": "get_image_url"}
+          # }
           # "tool_choice": "auto"
         }
 
@@ -253,127 +266,127 @@ class handler(BaseHTTPRequestHandler):
 
                   try:
                     data_obj = json.loads(data)
-                    # print(data_obj)
-                    # content = data_obj["choices"][0]["delta"].get("content")
-                    # if content:
-                    #   print(content, end="", flush=True)
-                    #   self.wfile.write(content.encode("utf-8"))
+                    print(data_obj)
+                    content = data_obj["choices"][0]["delta"].get("content")
+                    if content:
+                      print(content, end="", flush=True)
+                      self.wfile.write(content.encode("utf-8"))
 
                     # tool_calls = data_obj["choices"][0]["delta"].get("tool_calls")
                     # if tool_calls:
                     #     print("\nTool call:", tool_calls, flush=True)
 
-                    calls = data_obj["choices"][0]["delta"].get("tool_calls") or []
-                    for call in calls:
-                      index = call["index"]
+                    # calls = data_obj["choices"][0]["delta"].get("tool_calls") or []
+                    # for call in calls:
+                    #   index = call["index"]
 
-                      if index not in tool_calls:
-                          tool_calls[index] = {
-                              "id": "",
-                              "name": "",
-                              "arguments": ""
-                          }
+                    #   if index not in tool_calls:
+                    #       tool_calls[index] = {
+                    #           "id": "",
+                    #           "name": "",
+                    #           "arguments": ""
+                    #       }
 
-                      if call.get("id"):
-                          tool_calls[index]["id"] = call["id"]
+                    #   if call.get("id"):
+                    #       tool_calls[index]["id"] = call["id"]
 
-                      function = call.get("function", {})
-                      tool_calls[index]["name"] += function.get("name") or ""
-                      tool_calls[index]["arguments"] += function.get("arguments") or ""
+                    #   function = call.get("function", {})
+                    #   tool_calls[index]["name"] += function.get("name") or ""
+                    #   tool_calls[index]["arguments"] += function.get("arguments") or ""
                   except json.JSONDecodeError:
                     pass
               except Exception:
                 break
 
-        image_urls = {}
-        print("Getting URLs")
-        print("Collected tool calls:", tool_calls)
+        # image_urls = {}
+        # print("Getting URLs")
+        # print("Collected tool calls:", tool_calls)
 
-        for call in tool_calls.values():
-          if call["name"] == "get_image_url":
-            args = json.loads(call["arguments"])
-            print(args["query"])
+        # for call in tool_calls.values():
+        #   if call["name"] == "get_image_url":
+        #     args = json.loads(call["arguments"])
+        #     print(args["query"])
 
-            image_urls = self.get_image_url(args["query"])
-            # print("Image URLs:", image_urls)
+        #     image_urls = self.get_image_url(args["query"])
+        #     # print("Image URLs:", image_urls)
 
-        second_payload = {
-          "model": "openai/gpt-4o",
-          "messages": [
-              {
-                "role": "user",
-                "content": f"""Answer the following question using valid HTML that can be rendered directly using JavaScript's innerHTML.
+        # second_payload = {
+        #   "model": "openai/gpt-4o",
+        #   "messages": [
+        #       {
+        #         "role": "user",
+        #         "content": f"""Answer the following question using valid HTML that can be rendered directly using JavaScript's innerHTML.
 
-                Requirements:
-                - Wrap the entire response inside a single <div>.
-                - Use nested <div> elements to organize related content.
-                - Use appropriate HTML tags such as <h2>, <h3>, <p>, <strong>, <ul>, <ol>, and <li>.
-                - Use <img src="URL" alt="description"> for relevant images when valid image URLs are available.
-                - Do not use Markdown syntax or Markdown code fences.
-                - Do not include <html>, <head>, or <body> tags.
-                - Return only the HTML, with no additional explanations or text.
-                - Ensure all tags are properly closed and the HTML is valid.
+        #         Requirements:
+        #         - Wrap the entire response inside a single <div>.
+        #         - Use nested <div> elements to organize related content.
+        #         - Use appropriate HTML tags such as <h2>, <h3>, <p>, <strong>, <ul>, <ol>, and <li>.
+        #         - Use <img src="URL" alt="description"> for relevant images when valid image URLs are available.
+        #         - Do not use Markdown syntax or Markdown code fences.
+        #         - Do not include <html>, <head>, or <body> tags.
+        #         - Return only the HTML, with no additional explanations or text.
+        #         - Ensure all tags are properly closed and the HTML is valid.
 
-                Question: {user_ques_data["question"]}"""
-              },
-              {
-                "role": "assistant",
-                "content": None,
-                "tool_calls": [
-                    {
-                        "id": call["id"],
-                        "type": "function",
-                        "function": {
-                            "name": call["name"],
-                            "arguments": call["arguments"]
-                        }
-                    }
-                    for call in tool_calls.values()
-                ]
-              },
-              {
-                "role": "tool",
-                "tool_call_id": call["id"],
-                "content": json.dumps(image_urls)
-              }
-          ],
-          "stream": True
-        }
-        buffer = ""
-        with requests.post(url, headers=headers, json=second_payload, stream=True) as r:
-          for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
-            buffer += chunk
-            while True:
-              try:
-                # Find the next complete SSE line
-                line_end = buffer.find('\n')
-                if line_end == -1:
-                  break
+        #         Question: {user_ques_data["question"]}"""
+        #       },
+        #       {
+        #         "role": "assistant",
+        #         "content": None,
+        #         "tool_calls": [
+        #             {
+        #                 "id": call["id"],
+        #                 "type": "function",
+        #                 "function": {
+        #                     "name": call["name"],
+        #                     "arguments": call["arguments"]
+        #                 }
+        #             }
+        #             for call in tool_calls.values()
+        #         ]
+        #       },
+        #       {
+        #         "role": "tool",
+        #         "tool_call_id": call["id"],
+        #         "content": json.dumps(image_urls)
+        #       }
+        #   ],
+        #   "stream": True
+        # }
+        # buffer = ""
+        # with requests.post(url, headers=headers, json=second_payload, stream=True) as r:
+        #   for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+        #     buffer += chunk
+        #     while True:
+        #       try:
+        #         # Find the next complete SSE line
+        #         line_end = buffer.find('\n')
+        #         if line_end == -1:
+        #           break
 
-                line = buffer[:line_end].strip()
-                buffer = buffer[line_end + 1:]
+        #         line = buffer[:line_end].strip()
+        #         buffer = buffer[line_end + 1:]
 
-                # Skip SSE comments (lines starting with ":"), e.g. the
-                # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
-                if line.startswith(':'):
-                  continue
+        #         # Skip SSE comments (lines starting with ":"), e.g. the
+        #         # ": OPENROUTER PROCESSING" keep-alive — they are not JSON
+        #         if line.startswith(':'):
+        #           continue
 
-                if line.startswith('data: '):
-                  data = line[6:]
-                  if data == '[DONE]':
-                    break
+        #         if line.startswith('data: '):
+        #           data = line[6:]
+        #           if data == '[DONE]':
+        #             break
 
-                  try:
-                    data_obj = json.loads(data)
-                    # print(data_obj)
-                    content = data_obj["choices"][0]["delta"].get("content")
-                    if content:
-                      print(content, end="", flush=True)
-                      self.wfile.write(content.encode("utf-8"))
-                  except json.JSONDecodeError:
-                    pass
-              except Exception:
-                break
+        #           try:
+        #             data_obj = json.loads(data)
+        #             # print(data_obj)
+        #             content = data_obj["choices"][0]["delta"].get("content")
+        #             if content:
+        #               print(content, end="", flush=True)
+        #               self.wfile.write(content.encode("utf-8"))
+        #           except json.JSONDecodeError:
+        #             pass
+        #       except Exception:
+        #         break
 
         self.send_response(200)
         print("Got the Answer.")
@@ -521,7 +534,10 @@ class handler(BaseHTTPRequestHandler):
 
     return ans_data
 
-
+handler = partial(
+    class_handler,
+    directory=str(Path(__file__).resolve().parent)
+)
 
 server = HTTPServer((HOST, PORT), handler)
 print(f"Listening on PORT: {PORT}")

@@ -1,7 +1,7 @@
 function populateQuestions() {
   const question_container = document.querySelector('.questions-container');
 
-  fetch('http://127.0.0.1:8000/solutions') 
+  fetch('http://127.0.0.1:8000/api/solutions') 
   .then((response) => response.json())
   .then((data) => {
     // console.log(data);
