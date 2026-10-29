@@ -231,6 +231,7 @@ async function chatText() {
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
+  let fullresponse = "";
   
   while (true) {
     loadingRow.forEach((row) => {
@@ -247,9 +248,11 @@ async function chatText() {
       break;
     }
     const text = decoder.decode(value, { stream: true });
-    
+    fullresponse += text;
     answerText.textContent += text;
   }
+  answerText.innerHTML = fullresponse;
+
 
   // const stream = await fetch('http://127.0.0.1:8000/api/chat', {
   //   method: 'POST',
