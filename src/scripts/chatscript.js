@@ -192,48 +192,175 @@ async function chatText() {
 
   console.log(questionfromserver.textContent);
 
+  // const response = await fetch('http://127.0.0.1:8000/api/chat', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     'question': data_ques
+  //   }),
+  // });
+
+  // console.log("2. Response received:", response.status);
+  // console.log("3. Content-Type:", response.headers.get("Content-Type"));
+
+  // // Errors that occur before streaming starts are plain JSON, not SSE
+  // if (!response.ok) {
+  //   const error = await response.json();
+  //   console.error("Server error:", error);
+  //   throw new Error(error.error.message);
+  // }
+
+  // const parser = createParser({
+  //   onEvent(event) {
+  //     if (event.data === '[DONE]') return;
+  //     try {
+  //       const chunk = JSON.parse(event.data);
+  //       const content = chunk.choices?.[0]?.delta?.content;
+  //       if (content) {
+  //         fullresponse += content;
+  //         answerText.textContent += content;
+  //         console.log(content);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+
+  // console.log("4. Starting to read stream");
+
+  // const reader = response.body.getReader();
+  // const decoder = new TextDecoder();
+  // let fullresponse = "";
+  
+  // while (true) {
+  //   const { done, value } = await reader.read();
+
+  //   loadingRow.forEach((row) => {
+  //     row.classList.remove("skeleton");
+  //   });
+  //   loadingRowHalf.forEach((row) => {
+  //     row.classList.remove("skeleton");
+  //   });
+  //   loadingRowDiv.style.height = '0px';
+
+  //   if (done) {
+  //     console.log("5. Stream finished");
+  //     break;
+  //   }
+
+  //   const text = decoder.decode(value, { stream: true });
+  //   parser.feed(text);
+  //   // fullresponse += text;
+  //   // answerText.textContent += text;
+  // }
+  // answerText.innerHTML = fullresponse;
+
+
   const response = await fetch('http://127.0.0.1:8000/api/chat', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'question': data_ques
+      question: data_ques
     }),
   });
 
   console.log("2. Response received:", response.status);
   console.log("3. Content-Type:", response.headers.get("Content-Type"));
 
-  // Errors that occur before streaming starts are plain JSON, not SSE
   if (!response.ok) {
     const error = await response.json();
     console.error("Server error:", error);
-    throw new Error(error.error.message);
+    throw new Error(error.error?.message || "Request failed");
   }
 
   const parser = createParser({
     onEvent(event) {
       if (event.data === '[DONE]') return;
+      console.log("RAW SSE EVENT:", JSON.stringify(event.data));
+
       try {
-        const chunk = JSON.parse(event.data);
-        const content = chunk.choices?.[0]?.delta?.content;
-        if (content) {
-          console.log(content);
+        const data = JSON.parse(event.data);
+
+        // Handle incoming text.
+        if (data.type === 'text' && data.content) {
+          fullresponse += data.content;
+
+          if (!hasReceivedContent) {
+            // loadingRow.forEach((row) => {
+            //   row.classList.remove('skeleton');
+            // });
+
+            // loadingRowHalf.forEach((row) => {
+            //   row.classList.remove('skeleton');
+            // });
+
+            // loadingRowDiv.style.height = '0px';
+            hasReceivedContent = true;
+          }
+
+          answerText.appendChild(
+            document.createTextNode(data.content)
+          );
         }
+
+        // Handle incoming images.
+        else if (data.type === 'image' && data.url) {
+          const img = document.createElement('img');
+
+          img.src = data.url.thumbnail;
+          img.alt = data.url.title || 'Educational image';
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+
+          answerText.appendChild(img);
+          answerText.appendChild(document.createElement('br'));
+        }
+
+        // Handle completion.
+        else if (data.type === 'done') {
+          console.log('Response completed');
+        }
+
       } catch (error) {
-        console.log(error);
+        console.error('Error parsing SSE event:', error);
       }
     },
   });
 
-  console.log("4. Starting to read stream");
-
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
+
   let fullresponse = "";
-  
-  while (true) {
+  let hasReceivedContent = false;
+
+  console.log("4. Starting to read stream");
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) {
+        console.log("5. Stream finished");
+        break;
+      }
+
+      parser.feed(decoder.decode(value, { stream: true }));
+    }
+
+    // Flush any remaining decoder bytes.
+    parser.feed(decoder.decode());
+
+    // Render the complete HTML response.
+    // answerText.innerHTML = fullresponse;
+
+  } finally {
+    // Ensure the loader is removed even if no text arrives.
+    // removeLoader();
     loadingRow.forEach((row) => {
       row.classList.remove("skeleton");
     });
@@ -241,17 +368,8 @@ async function chatText() {
       row.classList.remove("skeleton");
     });
     loadingRowDiv.style.height = '0px';
-    
-    const { done, value } = await reader.read();
-    if (done) {
-      console.log("5. Stream finished");
-      break;
-    }
-    const text = decoder.decode(value, { stream: true });
-    fullresponse += text;
-    answerText.textContent += text;
   }
-  answerText.innerHTML = fullresponse;
+
 
 
   // const stream = await fetch('http://127.0.0.1:8000/api/chat', {
@@ -266,6 +384,7 @@ async function chatText() {
 
   // const reader = stream.body.getReader();
   // let toolCalls = [];
+  // let fullresponse = "";
 
   // while (true) {
   //   const { done, value } = await reader.read();
@@ -284,15 +403,19 @@ async function chatText() {
   //         toolCalls.push(...data.choices[0].delta.tool_calls);
   //       }
 
-  //       if (data.choices[0].delta.finish_reason === 'tool_calls') {
+  //       if (data.choices[0].finish_reason === 'tool_calls') {
   //         await handleToolCalls(toolCalls);
-  //       } else if (data.choices[0].delta.finish_reason === 'stop') {
+  //       } else if (data.choices[0].finish_reason === 'stop') {
   //         // Regular completion without tool calls
+  //         if (done) break;
+  //         answerText.textContent += chunk;
+  //         fullresponse += chunk;
   //         break;
   //       }
   //     }
   //   }
   // }
+  // answerText.innerHTML = fullresponse;
 }
 
 
