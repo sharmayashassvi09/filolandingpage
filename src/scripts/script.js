@@ -225,6 +225,8 @@ const sendToServer = () => {
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
 	setTimeout(() => {
+		getSolutionbutton.classList.remove("loading");
+		buttonText.textContent = "Get Solution";
 		window.location.href = "/chat";
 	}, 2000);
 };

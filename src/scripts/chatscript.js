@@ -1,163 +1,3 @@
-// async function chatText(){
-//   const answerText = document.querySelector('.answer-from-server');
-//   answerText.textContent = "";
-
-//   const loadingRowDiv = document.getElementById('card-title');
-//   const loadingRow = document.querySelectorAll('.skeleton-text');
-//   loadingRow.forEach((row) => {
-//     row.classList.add("skeleton");
-//   });
-//   const loadingRowHalf = document.querySelectorAll('.skeleton-text-half');
-//   loadingRowHalf.forEach((row) => {
-//     row.classList.add("skeleton");
-//   });
-
-//   const questionfromserver = document.querySelector('.question-from-server');
-
-//   let data_ques = "";
-//   let data_id = "";
-//   await fetch('http://127.0.0.1:8000/chat') 
-//   .then(async (response) => await response.json())
-//   .then((data) => {
-//     console.log(data);
-//     questionfromserver.textContent = data['question'];
-//     data_ques = data['question'];
-//     data_id = data['id'];
-//   })
-//   .catch((error) => {
-//     console.log("Error fetching JSON file:", error);
-//   })
-
-//   console.log(questionfromserver.textContent);
-
-//   let fullresponse = "";
-//   fetch('http://127.0.0.1:8000/chat', {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({
-//       "question": data_ques
-//     })                      
-//   })
-//   .then(response => {
-//     const reader = response.body.getReader();
-//     const decoder = new TextDecoder();
-//     const head = response.headers.get('img_url');
-//     console.log(head);
-//     let receivedLength = 0;
-    
-//     return new ReadableStream({
-//       start(controller) {
-//         function push() {
-//           reader.read().then(({ done, value }) => {
-//             if (done) {
-//               controller.close();
-//               return;
-//             }
-            
-//             loadingRow.forEach((row) => {
-//               row.classList.remove("skeleton");
-//             });
-//             loadingRowHalf.forEach((row) => {
-//               row.classList.remove("skeleton");
-//             });
-//             loadingRowDiv.style.height = '0px';
-            
-//             receivedLength += value.length;
-//             const chunk = decoder.decode(value, { stream: true });
-//             console.log(chunk);
-//             answerText.textContent += chunk;
-//             fullresponse += chunk
-//             controller.enqueue(value);
-//             push();
-//           });
-//         }
-//         push();
-//       }
-//     });
-//   })
-//   .then(stream => new Response(stream))
-//   .then(response => response.text())
-//   .then(data => {
-//     answerText.innerHTML = fullresponse;
-//     console.log("Streaming complete");
-//   })
-//   .catch(error => {
-//     console.error('Streaming error:', error);
-//   });
-// }
-
-// async function chatText(){
-//   const stream = await fetch('http://127.0.0.1:8000/chat', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({
-//       "question": data_ques
-//     }) 
-//   });
-
-//   const reader = stream.body.getReader();
-//   let toolCalls = [];
-
-//   while (true) {
-//     const { done, value } = await reader.read();
-//     if (done) {
-//       break;
-//     }
-
-//     const chunk = new TextDecoder().decode(value);
-//     const lines = chunk.split('\n').filter(line => line.trim());
-
-//     for (const line of lines) {
-//       if (line.startsWith('data: ')) {
-//         const data = JSON.parse(line.slice(6));
-
-//         if (data.choices[0].delta.tool_calls) {
-//           toolCalls.push(...data.choices[0].delta.tool_calls);
-//         }
-
-//         if (data.choices[0].delta.finish_reason === 'tool_calls') {
-//           await handleToolCalls(toolCalls);
-//         } else if (data.choices[0].delta.finish_reason === 'stop') {
-          
-//           let receivedLength = 0;
-//           return new ReadableStream({
-//             start(controller) {
-//               function push() {
-//                 reader.read().then(({ done, value }) => {
-//                   if (done) {
-//                     controller.close();
-//                     return;
-//                   }
-                  
-//                   loadingRow.forEach((row) => {
-//                     row.classList.remove("skeleton");
-//                   });
-//                   loadingRowHalf.forEach((row) => {
-//                     row.classList.remove("skeleton");
-//                   });
-//                   loadingRowDiv.style.height = '0px';
-                  
-//                   receivedLength += value.length;
-//                   const partText = chunk.decode(value, { stream: true });
-//                   console.log(partText);
-//                   answerText.textContent += partText;
-//                   fullresponse += partText
-//                   controller.enqueue(value);
-//                   push();
-//                 });
-//               }
-//               push();
-//             }
-//           });
-//           break;
-//         }
-//       }
-//     }
-//   }
-// }
-
 import { createParser } from "https://esm.sh/eventsource-parser";
 
 async function chatText() {
@@ -192,73 +32,6 @@ async function chatText() {
 
   console.log(questionfromserver.textContent);
 
-  // const response = await fetch('http://127.0.0.1:8000/api/chat', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     'question': data_ques
-  //   }),
-  // });
-
-  // console.log("2. Response received:", response.status);
-  // console.log("3. Content-Type:", response.headers.get("Content-Type"));
-
-  // // Errors that occur before streaming starts are plain JSON, not SSE
-  // if (!response.ok) {
-  //   const error = await response.json();
-  //   console.error("Server error:", error);
-  //   throw new Error(error.error.message);
-  // }
-
-  // const parser = createParser({
-  //   onEvent(event) {
-  //     if (event.data === '[DONE]') return;
-  //     try {
-  //       const chunk = JSON.parse(event.data);
-  //       const content = chunk.choices?.[0]?.delta?.content;
-  //       if (content) {
-  //         fullresponse += content;
-  //         answerText.textContent += content;
-  //         console.log(content);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // });
-
-  // console.log("4. Starting to read stream");
-
-  // const reader = response.body.getReader();
-  // const decoder = new TextDecoder();
-  // let fullresponse = "";
-  
-  // while (true) {
-  //   const { done, value } = await reader.read();
-
-  //   loadingRow.forEach((row) => {
-  //     row.classList.remove("skeleton");
-  //   });
-  //   loadingRowHalf.forEach((row) => {
-  //     row.classList.remove("skeleton");
-  //   });
-  //   loadingRowDiv.style.height = '0px';
-
-  //   if (done) {
-  //     console.log("5. Stream finished");
-  //     break;
-  //   }
-
-  //   const text = decoder.decode(value, { stream: true });
-  //   parser.feed(text);
-  //   // fullresponse += text;
-  //   // answerText.textContent += text;
-  // }
-  // answerText.innerHTML = fullresponse;
-
-
   const response = await fetch('http://127.0.0.1:8000/api/chat', {
     method: 'POST',
     headers: {
@@ -286,20 +59,10 @@ async function chatText() {
       try {
         const data = JSON.parse(event.data);
 
-        // Handle incoming text.
         if (data.type === 'text' && data.content) {
           fullresponse += data.content;
 
           if (!hasReceivedContent) {
-            // loadingRow.forEach((row) => {
-            //   row.classList.remove('skeleton');
-            // });
-
-            // loadingRowHalf.forEach((row) => {
-            //   row.classList.remove('skeleton');
-            // });
-
-            // loadingRowDiv.style.height = '0px';
             hasReceivedContent = true;
           }
 
@@ -308,7 +71,6 @@ async function chatText() {
           );
         }
 
-        // Handle incoming images.
         else if (data.type === 'image' && data.url) {
           const img = document.createElement('img');
 
@@ -321,7 +83,6 @@ async function chatText() {
           answerText.appendChild(document.createElement('br'));
         }
 
-        // Handle completion.
         else if (data.type === 'done') {
           console.log('Response completed');
         }
@@ -352,15 +113,9 @@ async function chatText() {
       parser.feed(decoder.decode(value, { stream: true }));
     }
 
-    // Flush any remaining decoder bytes.
     parser.feed(decoder.decode());
 
-    // Render the complete HTML response.
-    // answerText.innerHTML = fullresponse;
-
   } finally {
-    // Ensure the loader is removed even if no text arrives.
-    // removeLoader();
     loadingRow.forEach((row) => {
       row.classList.remove("skeleton");
     });
@@ -370,52 +125,6 @@ async function chatText() {
     loadingRowDiv.style.height = '0px';
   }
 
-
-
-  // const stream = await fetch('http://127.0.0.1:8000/api/chat', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     'question': data_ques
-  //   }),
-  // });
-
-  // const reader = stream.body.getReader();
-  // let toolCalls = [];
-  // let fullresponse = "";
-
-  // while (true) {
-  //   const { done, value } = await reader.read();
-  //   if (done) {
-  //     break;
-  //   }
-
-  //   const chunk = new TextDecoder().decode(value);
-  //   const lines = chunk.split('\n').filter(line => line.trim());
-
-  //   for (const line of lines) {
-  //     if (line.startsWith('data: ')) {
-  //       const data = JSON.parse(line.slice(6));
-
-  //       if (data.choices[0].delta.tool_calls) {
-  //         toolCalls.push(...data.choices[0].delta.tool_calls);
-  //       }
-
-  //       if (data.choices[0].finish_reason === 'tool_calls') {
-  //         await handleToolCalls(toolCalls);
-  //       } else if (data.choices[0].finish_reason === 'stop') {
-  //         // Regular completion without tool calls
-  //         if (done) break;
-  //         answerText.textContent += chunk;
-  //         fullresponse += chunk;
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
-  // answerText.innerHTML = fullresponse;
 }
 
 
