@@ -13,6 +13,7 @@ async function chatText() {
   loadingRowHalf.forEach((row) => {
     row.classList.add("skeleton");
   });
+  loadingRowDiv.style.height = "100%";
 
   const questionfromserver = document.querySelector('.question-from-server');
 
@@ -130,90 +131,39 @@ async function chatText() {
 
 chatText()
 
-const sendToServer = () => {
-  const textQuestion = document.getElementById('questiondata');
-  sessionStorage.setItem("Question", textQuestion.textContent);
+const getSolutionbutton = document.querySelector('.getsol');
+getSolutionbutton.addEventListener("click", sendToServer);
 
-  const questionfromserver = document.querySelector('.question-from-server');
-  questionfromserver.textContent = textQuestion.textContent;
-  const answerText = document.querySelector('.answer-from-server');
-  answerText.textContent = "";
+function sendToServer() {
+ const textQuestion = document.getElementById('questiondata');
+	console.log(textQuestion.textContent);
+	
+	const buttonText = document.querySelector("#buttonText");
 
-  const loadingRowDiv = document.getElementById('card-title');
-  loadingRowDiv.style.height = '100%';
-  const loadingRow = document.querySelectorAll('.skeleton-text');
-  loadingRow.forEach((row) => {
-    row.classList.add("skeleton");
-  });
-  const loadingRowHalf = document.querySelectorAll('.skeleton-text-half');
-  loadingRowHalf.forEach((row) => {
-    row.classList.add("skeleton");
-  });
-
-  const getSolutionbutton = document.querySelector('.getsol');
-  const buttonText = document.querySelector("#buttonText");
+	fetch('http://127.0.0.1:8000', {
+		method: "POST",
+		headers: { 
+			"Content-Type": "application/json" 
+		},
+		body: JSON.stringify({
+			"question": textQuestion.textContent
+		})
+	}) 
+  .then(async (response) => await response.json())
+  .then((data) => {
+    console.log(data);
+		setTimeout(() => {
+			getSolutionbutton.classList.remove("loading");
+			buttonText.textContent = "Get Solution";
+			chatText();
+		}, 2000);
+  })
+  .catch((error) => {
+    console.log("Error fetching JSON file:", error);
+  })
 
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
-
-  let fullresponse = "";
-  const res = fetch('http://127.0.0.1:8000/chat', {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      "question": textQuestion.textContent
-    })                      
-  })
-  .then(response => {
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let receivedLength = 0;
-
-    textQuestion.textContent = "";
-    
-    return new ReadableStream({
-      start(controller) {
-        function push() {
-          reader.read().then(({ done, value }) => {
-            if (done) {
-              controller.close();
-              return;
-            }
-            
-            loadingRow.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowHalf.forEach((row) => {
-              row.classList.remove("skeleton");
-            });
-            loadingRowDiv.style.height = '0px';
-            getSolutionbutton.classList.remove("loading");
-            buttonText.textContent = "Get Solution";
-            
-            receivedLength += value.length;
-            const chunk = decoder.decode(value, { stream: true });
-            console.log(chunk);
-            answerText.textContent += chunk;
-            fullresponse += chunk;
-            controller.enqueue(value);
-            push();
-          });
-        }
-        push();     
-      }
-    });
-  })
-  .then(stream => new Response(stream))
-  .then(response => response.text())
-  .then(data => {
-    answerText.innerHTML = fullresponse;
-    console.log("Streaming complete");
-  })
-  .catch(error => {
-    console.error('Streaming error:', error);
-  });
 };
 
 function parseMarkdown(text) {

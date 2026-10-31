@@ -201,6 +201,9 @@ cardContainer.addEventListener("mouseleave", () => {
 const sendToServer = () => {
 	const textQuestion = document.getElementById('questiondata');
 	console.log(textQuestion.textContent);
+	
+	const getSolutionbutton = document.querySelector('.getsol');
+	const buttonText = document.querySelector("#buttonText");
 
 	fetch('http://127.0.0.1:8000', {
 		method: "POST",
@@ -214,21 +217,19 @@ const sendToServer = () => {
   .then(async (response) => await response.json())
   .then((data) => {
     console.log(data);
+		setTimeout(() => {
+			getSolutionbutton.classList.remove("loading");
+			buttonText.textContent = "Get Solution";
+			window.location.href = "/chat";
+		}, 2000);
   })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
   })
 
-	const getSolutionbutton = document.querySelector('.getsol');
-	const buttonText = document.querySelector("#buttonText");
-
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
-	setTimeout(() => {
-		getSolutionbutton.classList.remove("loading");
-		buttonText.textContent = "Get Solution";
-		window.location.href = "/chat";
-	}, 2000);
+	
 };
 
 

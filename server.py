@@ -18,6 +18,48 @@ PORT = 8000
 
 class class_handler(SimpleHTTPRequestHandler):
 
+  def send_exception_error(self, error):
+    self.send_response(500)       
+    self.send_header("Content-Type", "application/json")
+    self.send_header("Access-Control-Allow-Origin", "*")
+    self.end_headers()
+
+    self.wfile.write(
+      json.dumps({
+          "error": str(error)
+      }).encode()
+    )
+
+  # Using SERPAPI
+  def get_image_url(self, ques):
+    data = []
+    print("Inside get img urls")
+
+    client = serpapi.Client(api_key=SERPAPI_KEY)
+    results = client.search({
+      "engine": "google_images",
+      "q": ques,
+      "location": "Austin, Texas, United States",
+      "google_domain": "google.com",
+      "hl": "en",
+      "gl": "us"
+    })
+    images_results = results["images_results"]
+    images_results = images_results[:1]
+    for image_url in images_results:
+      data.append(image_url)
+      event = {
+        "type": "image",
+        "url": image_url
+      }
+
+      self.wfile.write(
+        f"data: {json.dumps(event)}\n\n".encode("utf-8")
+      )
+      self.wfile.flush()
+    # print(images_results)
+    return data
+
   def do_GET(self):
     if self.path == "/api/chat":
       print("Inside do_GET chat")
@@ -43,16 +85,7 @@ class class_handler(SimpleHTTPRequestHandler):
           )
 
       except Exception as error:
-        self.send_response(500)       
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-
-        self.wfile.write(
-          json.dumps({
-              "error": str(error)
-          }).encode()
-        )
+        self.send_exception_error(error)
 
     # ------------------------------ x ---- x ------------------------------
     elif self.path == "/api/solutions":
@@ -71,17 +104,7 @@ class class_handler(SimpleHTTPRequestHandler):
           json.dumps(data).encode()
         )
       except Exception as error:
-        self.send_response(500)
-        
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-
-        self.wfile.write(
-          json.dumps({
-              "error": str(error)
-          }).encode()
-        )
+        self.send_exception_error(error)
 
     elif self.path == "/":
       self.path = "/index.html"
@@ -139,15 +162,7 @@ class class_handler(SimpleHTTPRequestHandler):
         print(user_ques_data)  
 
       except Exception as error:
-        self.send_response(500)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-        self.wfile.write(
-          json.dumps({
-              "error": str(error)
-          }).encode()
-        )
+        self.send_exception_error(error)
 
     # ------------------------------ x ---- x ------------------------------
     if self.path == "/api/chat":
@@ -159,10 +174,6 @@ class class_handler(SimpleHTTPRequestHandler):
         # self.send_response(200)
         print("Data read - 200.")
         print(user_ques_data)
-
-        
-        # self.send_header('Content-type', 'text/plain; charset=utf-8')
-        # self.send_header("Access-Control-Allow-Origin", "*")
 
         # self.send_response(200)
         with open("src/data/chats.json") as file:
@@ -180,11 +191,9 @@ class class_handler(SimpleHTTPRequestHandler):
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Access-Control-Allow-Origin", "*")
-        # self.send_header('img_url', image_urls)
         self.end_headers()
 
         # Sending request to LLM
-        url = URL
         headers = {
           "Authorization": f"Bearer {API_KEY}",
           "Content-Type": "application/json"
@@ -416,49 +425,13 @@ class class_handler(SimpleHTTPRequestHandler):
         # )
         
       except Exception as error:
-        self.send_response(500)
+        self.send_exception_error(error)
 
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
 
-        self.wfile.write(
-          json.dumps({
-              "error": str(error)
-          }).encode()
-        )
+
+
 
     
-
-  # Using SERPAPI
-  def get_image_url(self, ques):
-    data = []
-    print("Inside get img urls")
-
-    client = serpapi.Client(api_key=SERPAPI_KEY)
-    results = client.search({
-      "engine": "google_images",
-      "q": ques,
-      "location": "Austin, Texas, United States",
-      "google_domain": "google.com",
-      "hl": "en",
-      "gl": "us"
-    })
-    images_results = results["images_results"]
-    images_results = images_results[:1]
-    for image_url in images_results:
-      data.append(image_url)
-      event = {
-        "type": "image",
-        "url": image_url
-      }
-
-      self.wfile.write(
-        f"data: {json.dumps(event)}\n\n".encode("utf-8")
-      )
-      self.wfile.flush()
-    # print(images_results)
-    return data
 
  
 
