@@ -61,9 +61,12 @@ class class_handler(SimpleHTTPRequestHandler):
     return data
 
   def do_GET(self):
-    if self.path == "/api/chat":
+    if self.path.startswith("/api/chat"):
       print("Inside do_GET chat")
       try:
+
+        data_id = self.path.split("/")[-1]
+
         with open("src/data/chats.json") as file:
           data = json.load(file)
           print(data)
@@ -73,11 +76,10 @@ class class_handler(SimpleHTTPRequestHandler):
           self.send_header("Access-Control-Allow-Origin", "*")
           self.end_headers()
 
-          id = str(len(data))
-          print(data[id])
+          print(data[data_id])
           send_data = {
-            "id": id,
-            "question": data[id]
+            "id": data_id,
+            "question": data[data_id]
           }
           print(send_data)
           self.wfile.write(
@@ -109,7 +111,7 @@ class class_handler(SimpleHTTPRequestHandler):
     elif self.path == "/":
       self.path = "/index.html"
       return super().do_GET()
-    elif self.path == "/chat":
+    elif self.path.startswith("/chat/"):
       self.path = "/src/pages/chat.html"
       return super().do_GET()
     elif self.path == "/solutions":

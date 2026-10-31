@@ -18,14 +18,13 @@ async function chatText() {
   const questionfromserver = document.querySelector('.question-from-server');
 
   let data_ques = "";
-  let data_id = "";
-  await fetch('http://127.0.0.1:8000/api/chat') 
+  let data_id = window.location.pathname.split("/").pop();
+  await fetch(`http://127.0.0.1:8000/api/chat/${data_id}`)
   .then(async (response) => await response.json())
   .then((data) => {
     console.log(data);
     questionfromserver.textContent = data['question'];
     data_ques = data['question'];
-    data_id = data['id'];
   })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
@@ -155,13 +154,14 @@ function sendToServer() {
 		setTimeout(() => {
 			getSolutionbutton.classList.remove("loading");
 			buttonText.textContent = "Get Solution";
-			chatText();
+      window.location.href = `/chat/${data['id']}`;
+			// chatText();
 		}, 2000);
   })
   .catch((error) => {
     console.log("Error fetching JSON file:", error);
   })
-
+  textQuestion.textContent = "";
   getSolutionbutton.classList.add("loading");
   buttonText.textContent = "Generating...";
 };

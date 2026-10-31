@@ -220,7 +220,7 @@ const sendToServer = () => {
 		setTimeout(() => {
 			getSolutionbutton.classList.remove("loading");
 			buttonText.textContent = "Get Solution";
-			window.location.href = "/chat";
+			window.location.href = `/chat/${data['id']}`;
 		}, 2000);
   })
   .catch((error) => {
